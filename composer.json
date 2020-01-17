@@ -1,0 +1,16 @@
+{
+    "name" : "anax/noname",
+    "description": "Stack overflow spin off",
+    "license": "MIT",
+    "minimum-stability": "beta",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {"Anax\\": "src/"}
+    },
+    "require": {
+        "anax/anax-ramverk1-me": "^1.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7"
+    }
+}
