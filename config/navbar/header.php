@@ -2,6 +2,10 @@
 /**
  * Supply the basis for the navbar as an array.
  */
+
+global $di;
+$loggedIn = $di->get("session")->get("loggedIn", false);
+
 return [
     // Use for styling the menu
     "wrapper" => null,
@@ -18,6 +22,28 @@ return [
             "text" => "About",
             "url" => "about",
             "title" => "About this project.",
+        ],
+        [
+            "text" => $loggedIn ? "Me" : "Log in",
+            "url" => "users",
+            "title" => "Log in or view your profile.",
+            "submenu" => $loggedIn ? [
+                "items" => [
+                    [
+                        "text" => "Log out",
+                        "url" => "users/logout",
+                        "title" => "Log out from your account."
+                    ]
+                ]
+            ] : [
+                "items" => [
+                    [
+                        "text" => "Sign up",
+                        "url" => "users/signup",
+                        "title" => "Create an account."
+                    ]
+                ]
+            ]
         ],
     ],
 ];

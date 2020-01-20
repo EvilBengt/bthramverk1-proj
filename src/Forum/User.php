@@ -15,4 +15,15 @@ class User extends ActiveRecordModel
     public $id;
     public $username;
     public $password_hash;
+
+
+    public function checkPassword(string $password) : bool
+    {
+        return \password_verify($password, $this->password_hash);
+    }
+
+    public function setPassword(string $password)
+    {
+        $this->password_hash = \password_hash($password, \PASSWORD_DEFAULT);
+    }
 }
