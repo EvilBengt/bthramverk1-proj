@@ -12,11 +12,11 @@ return [
         "region" => "layout",
         "template" => "anax/v2/layout/dbwebb_se",
         "data" => [
-            "baseTitle" => " | ramverk1",
+            "baseTitle" => " | FunFunFun",
             "bodyClass" => null,
             "favicon" => "favicon.ico",
             "htmlClass" => null,
-            "lang" => "sv",
+            "lang" => "en",
             "stylesheets" => [
                 "css/dbwebb-se.min.css",
             ],
@@ -33,7 +33,7 @@ return [
             "template" => "anax/v2/header/site_logo_text",
             "data" => [
                 "homeLink"      => "",
-                "siteLogoText"  => "NAME",
+                "siteLogoText"  => "FunFunFun",
             ],
         ],
         [
