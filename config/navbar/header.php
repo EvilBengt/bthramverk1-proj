@@ -19,9 +19,14 @@ return [
             "title" => "The homepage, duh.",
         ],
         [
-            "text" => "About",
-            "url" => "about",
-            "title" => "About this project.",
+            "text" => "Questions",
+            "url" => "questions",
+            "title" => "Overview of all questions."
+        ],
+        [
+            "text" => "Tags",
+            "url" => "tags",
+            "title" => "Overview of all tags."
         ],
         [
             "text" => $loggedIn ? "Me" : "Log in",
@@ -44,6 +49,11 @@ return [
                     ]
                 ]
             ]
+        ],
+        [
+            "text" => "About",
+            "url" => "about",
+            "title" => "About this project.",
         ],
     ],
 ];
