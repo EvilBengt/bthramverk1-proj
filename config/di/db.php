@@ -1,14 +1,14 @@
 <?php
 /**
- * Configuration file for database query builder service.
+ * Configuration file for database service.
  */
 return [
     // Services to add to the container.
     "services" => [
-        "dbqb" => [
+        "db" => [
             "shared" => true,
             "callback" => function () {
-                $db = new \Anax\DatabaseQueryBuilder\DatabaseQueryBuilder();
+                $db = new \Anax\Database\Database();
 
                 // Load the configuration files
                 $cfg = $this->get("configuration");
@@ -17,7 +17,6 @@ return [
                 // Set the database configuration
                 $connection = $config["config"] ?? [];
                 $db->setOptions($connection);
-                $db->setDefaultsFromConfiguration();
 
                 return $db;
             }

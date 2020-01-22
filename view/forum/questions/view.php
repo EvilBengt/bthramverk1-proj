@@ -4,11 +4,11 @@ namespace Anax\View;
 
 ?>
 
-<h1><?= $question->title ?></h1>
+<h1><?= $question->model->title ?></h1>
 
 <h2>Question:</h2>
 <div class="question-body">
-    <?= $question->body ?>
+    <?= $question->model->body ?>
 </div>
 <a class="question-author" href="<?= url("users/view/" . $question->authorObject->id) ?>"><?= $question->authorObject->username ?></a>
 <ul class="comments">

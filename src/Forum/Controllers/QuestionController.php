@@ -6,7 +6,9 @@ use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 
 use EVB\Forum\Question;
+use EVB\Forum\QuestionWrapper;
 use EVB\Forum\Comment;
+use EVB\Forum\Tag;
 
 
 class QuestionController implements ContainerInjectableInterface
@@ -45,11 +47,11 @@ class QuestionController implements ContainerInjectableInterface
         $dbqb = $this->di->get("dbqb");
         $textfilter = $this->di->get("textfilter");
 
-        $question = new Question();
-        $question->setDb($dbqb);
-        $question->findById($id);
+        $question = new QuestionWrapper($dbqb);
 
-        $question->body = $textfilter->markdown($question->body);
+        $question->model->findById($id);
+
+        $question->model->body = $textfilter->markdown($question->model->body);
         $question->loadAuthor();
         $question->loadComments();
         $question->loadAnswers();
@@ -59,18 +61,44 @@ class QuestionController implements ContainerInjectableInterface
         ]);
 
         return $page->render([
-            "title" => $question->title
+            "title" => $question->model->title
         ]);
     }
 
     public function askActionGet() : object
     {
         $page = $this->di->get("page");
+        $dbqb = $this->di->get("dbqb");
 
-        $page->add("forum/questions/form");
+        $tag = new Tag();
+        $tag->setDb($dbqb);
+        $tags = $tag->findAll();
+
+        $page->add("forum/questions/form", [
+            "tags" => $tags
+        ]);
 
         return $page->render([
             "title" => "Ask a question"
         ]);
+    }
+
+    public function askActionPost() : object
+    {
+        $request = $this->di->get("request");
+        $response = $this->di->get("response");
+        $dbqb = $this->di->get("dbqb");
+        $session = $this->di->get("session");
+
+        $question = new Question();
+        $question->setDb($dbqb);
+
+        $question->title = $request->getPost("title");
+        $question->body = $request->getPost("body");
+
+        $tags = $request->getPost("tags", []);
+
+        $question->save();
+        $question->saveTags($tags);
     }
 }
