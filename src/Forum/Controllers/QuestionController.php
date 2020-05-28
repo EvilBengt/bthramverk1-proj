@@ -41,8 +41,7 @@ class QuestionController implements ContainerInjectableInterface
         $question = $questionManager->byID($id);
 
         $page->add("forum/questions/view", [
-            "question" => $question,
-            "parsedBody" => $textfilter->markdown($question->getBody())
+            "question" => $question
         ]);
 
         return $page->render([

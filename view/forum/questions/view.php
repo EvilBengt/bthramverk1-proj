@@ -7,7 +7,7 @@ namespace Anax\View;
 <h1><?= $question->getTitle() ?></h1>
 
 <div class="question-body">
-    <?= $parsedBody ?>
+    <?= $question->getBody() ?>
 </div>
 <a class="question-author" href="<?= url("users/view/" . $question->getAuthor()->getID()) ?>"><?= $question->getAuthor()->getUsername() ?></a>
 <ul class="comments">

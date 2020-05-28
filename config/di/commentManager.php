@@ -9,7 +9,8 @@ return [
             "callback" => function () {
                 return new EVB\Forum\Database\CommentManager(
                     $this->get("db"),
-                    $this->get("userManager")
+                    $this->get("userManager"),
+                    $this->get("textfilter")
                 );
             }
         ],

@@ -10,7 +10,8 @@ return [
                 return new EVB\Forum\Database\AnswerManager(
                     $this->get("db"),
                     $this->get("userManager"),
-                    $this->get("commentManager")
+                    $this->get("commentManager"),
+                    $this->get("textfilter")
                 );
             }
         ],

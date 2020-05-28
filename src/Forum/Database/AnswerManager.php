@@ -36,11 +36,19 @@ class AnswerManager
      */
     private $commentManager;
 
+    /**
+     * Text filter
+     *
+     * @var TextFilter
+     */
+    private $textFilter;
 
-    public function __construct(Database $db, UserManager $userManager, CommentManager $commentManager) {
+
+    public function __construct(Database $db, UserManager $userManager, CommentManager $commentManager, TextFilter $textFilter) {
         $this->db = $db;
         $this->userManager = $userManager;
         $this->commentManager = $commentManager;
+        $this->textFilter = $textFilter;
     }
 
 
@@ -77,7 +85,7 @@ class AnswerManager
         return new Answer(
             $data["id"],
             $data["question"],
-            $data["body"],
+            $this->textFilter->markdown($data["body"]),
             $this->commentManager->byContainerID($data["comment_container"]),
             $this->userManager->byID($data["author"])
         );

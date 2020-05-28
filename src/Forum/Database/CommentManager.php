@@ -26,10 +26,18 @@ class CommentManager
      */
     private $userManager;
 
+    /**
+     * Text filter
+     *
+     * @var TextFilter
+     */
+    private $textFilter;
 
-    public function __construct(Database $db, UserManager $userManager) {
+
+    public function __construct(Database $db, UserManager $userManager, TextFilter $textFilter) {
         $this->db = $db;
         $this->userManager = $userManager;
+        $this->textFilter = $textFilter;
     }
 
 
@@ -67,7 +75,7 @@ class CommentManager
             $data["id"],
             $data["comment_container"],
             $this->userManager->byID($data["author"]),
-            $data["body"]
+            $this->textFilter->markdown($data["body"])
         );
     }
 }
