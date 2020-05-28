@@ -9,7 +9,7 @@ namespace Anax\View;
 <ul>
     <?php foreach ($tags as $t) { ?>
     <li>
-        <a href="<?= url("questions?tag=" . \urlencode($t->getName())) ?>">
+        <a title="Click to browse all questions tagged '<?= $t->getName() ?>'" href="<?= url("questions?tag=" . \urlencode($t->getName())) ?>">
             <span class="li-title"><?= $t->getName() ?></span>
         </a>
     </li>
