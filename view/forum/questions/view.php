@@ -4,36 +4,35 @@ namespace Anax\View;
 
 ?>
 
-<h1><?= $question->model->title ?></h1>
+<h1><?= $question->getTitle() ?></h1>
 
-<h2>Question:</h2>
 <div class="question-body">
-    <?= $question->model->body ?>
+    <?= $parsedBody ?>
 </div>
-<a class="question-author" href="<?= url("users/view/" . $question->authorObject->id) ?>"><?= $question->authorObject->username ?></a>
+<a class="question-author" href="<?= url("users/view/" . $question->getAuthor()->getID()) ?>"><?= $question->getAuthor()->getUsername() ?></a>
 <ul class="comments">
-    <?php foreach ($question->comments as $c) { ?>
+    <?php foreach ($question->getComments() as $c) { ?>
     <li class="comment">
-        <p class="comment-body"><?= $c->body ?></p>
-        <a class="comment-author" href="<?= url("users/view/" . $question->authorObject->id) ?>"><?= $question->authorObject->username ?></a>
+        <p class="comment-body"><?= $c->getBody() ?></p>
+        <a class="comment-author" href="<?= url("users/view/" . $question->getAuthor()->getID()) ?>"><?= $question->getAuthor()->getUsername() ?></a>
     </li>
     <?php }; ?>
 </ul>
 
-<h2>Answers:</h2>
+<h2>Answers</h2>
 <ul class="answers">
-    <?php foreach ($question->answers as $a) { ?>
+    <?php foreach ($question->getAnswers() as $a) { ?>
     <li class="answer">
-        <p class="answer-body"><?= $a->body ?></p>
+        <p class="answer-body"><?= $a->getBody() ?></p>
+        <a class="answer-author" href="<?= url("users/view/" . $question->getAuthor()->getID()) ?>"><?= $question->getAuthor()->getUsername() ?></a>
         <ul class="comments">
-            <?php foreach ($a->comments as $c) { ?>
+            <?php foreach ($a->getComments() as $c) { ?>
             <li class="comment">
-                <p class="comment-body"><?= $c->body ?></p>
-                <a class="comment-author" href="<?= url("users/view/" . $question->authorObject->id) ?>"><?= $question->authorObject->username ?></a>
+                <p class="comment-body"><?= $c->getBody() ?></p>
+                <a class="comment-author" href="<?= url("users/view/" . $question->getAuthor()->getID()) ?>"><?= $question->getauthor()->getUsername() ?></a>
             </li>
             <?php }; ?>
         </ul>
-        <a class="answer-author" href="<?= url("users/view/" . $question->authorObject->id) ?>"><?= $question->authorObject->username ?></a>
     </li>
     <?php }; ?>
 </ul>

@@ -22,7 +22,7 @@ if ($_SERVER["SERVER_NAME"] === "www.student.bth.se") {
         "driver_options"  => [
             \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
         ],
-        "fetch_mode"      => \PDO::FETCH_OBJ,
+        "fetch_mode"      => \PDO::FETCH_ASSOC,
         "table_prefix"    => null,
         "session_key"     => "Anax\Database",
         "emulate_prepares" => false,
@@ -42,7 +42,7 @@ return [
     "driver_options"  => [
         \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
     ],
-    "fetch_mode"      => \PDO::FETCH_OBJ,
+    "fetch_mode"      => \PDO::FETCH_ASSOC,
     "table_prefix"    => null,
     "session_key"     => "Anax\Database",
     "emulate_prepares" => false,

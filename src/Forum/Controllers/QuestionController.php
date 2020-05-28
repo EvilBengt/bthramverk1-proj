@@ -16,21 +16,12 @@ class QuestionController implements ContainerInjectableInterface
     use ContainerInjectableTrait;
 
 
-    public function initialize() : void
-    {
-        $this->db = "active";
-    }
-
-
     public function indexAction() : object
     {
         $page = $this->di->get("page");
-        $dbqb = $this->di->get("dbqb");
+        $questionManager = $this->di->get("questionManager");
 
-        $question = new Question();
-        $question->setDb($dbqb);
-
-        $questions = $question->findAll();
+        $questions = $questionManager->all();
 
         $page->add("forum/questions/overview", [
             "questions" => $questions
@@ -44,24 +35,18 @@ class QuestionController implements ContainerInjectableInterface
     public function viewAction($id) : object
     {
         $page = $this->di->get("page");
-        $dbqb = $this->di->get("dbqb");
         $textfilter = $this->di->get("textfilter");
+        $questionManager = $this->di->get("questionManager");
 
-        $question = new QuestionWrapper($dbqb);
-
-        $question->model->findById($id);
-
-        $question->model->body = $textfilter->markdown($question->model->body);
-        $question->loadAuthor();
-        $question->loadComments();
-        $question->loadAnswers();
+        $question = $questionManager->byID($id);
 
         $page->add("forum/questions/view", [
-            "question" => $question
+            "question" => $question,
+            "parsedBody" => $textfilter->markdown($question->getBody())
         ]);
 
         return $page->render([
-            "title" => $question->model->title
+            "title" => $question->getTitle()
         ]);
     }
 

@@ -5,7 +5,7 @@ namespace EVB\Forum\Controllers;
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 
-use EVB\Forum\User;
+use EVB\Forum\Model\User;
 
 
 class UserController implements ContainerInjectableInterface
@@ -43,18 +43,16 @@ class UserController implements ContainerInjectableInterface
         $request = $this->di->get("request");
         $response = $this->di->get("response");
         $session = $this->di->get("session");
-        $dbqb = $this->di->get("dbqb");
+        $userManager = $this->di->get("userManager");
 
         $username = $request->getPost("username", "");
         $password = $request->getPost("password");
 
         $session->set("username", $username);
 
-        $user = new User();
-        $user->setDb($dbqb);
-        $user->find("username", $username);
+        $user = $userManager->byUsername($username);
 
-        if ($user->checkPassword($password)) {
+        if ($user != null && $user->checkPassword($password)) {
             $session->set("loggedIn", true);
         } else {
             $session->set("loginError", "Incorrect username and/or password");
@@ -93,17 +91,16 @@ class UserController implements ContainerInjectableInterface
         $request = $this->di->get("request");
         $response = $this->di->get("response");
         $session = $this->di->get("session");
-        $dbqb = $this->di->get("dbqb");
+        $userManager = $this->di->get("userManager");
 
-        $user = new User();
-        $user->setDb($dbqb);
-
-        $user->username = $request->getPost("username", "");
-        $user->setPassword($request->getPost("password", ""));
+        $user = $userManager->instantiate(
+            $request->getPost("username", ""),
+            $request->getPost("password", "")
+        );
 
         try {
-            $user->save();
-            $session->set("username", $user->username);
+            $userManager->save($user);
+            $session->set("username", $user->getUsername());
             return $response->redirect("users");
         } catch (\Exception $e) {
             $session->set("signupError", "Something went wrong, username may already exist.");
