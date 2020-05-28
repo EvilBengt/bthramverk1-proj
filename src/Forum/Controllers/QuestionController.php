@@ -5,11 +5,6 @@ namespace EVB\Forum\Controllers;
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 
-use EVB\Forum\Question;
-use EVB\Forum\QuestionWrapper;
-use EVB\Forum\Comment;
-use EVB\Forum\Tag;
-
 
 class QuestionController implements ContainerInjectableInterface
 {
