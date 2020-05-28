@@ -14,9 +14,18 @@ class QuestionController implements ContainerInjectableInterface
     public function indexAction() : object
     {
         $page = $this->di->get("page");
+        $request = $this->di->get("request");
         $questionManager = $this->di->get("questionManager");
 
-        $questions = $questionManager->all();
+        $tag = $request->getGet("tag");
+
+        $questions;
+        if ($tag != null) {
+            $questions = $questionManager->withTag($tag);
+        } else {
+            $questions = $questionManager->all();
+        }
+
 
         $page->add("forum/questions/overview", [
             "questions" => $questions

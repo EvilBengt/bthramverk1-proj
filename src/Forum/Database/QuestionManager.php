@@ -75,6 +75,30 @@ class QuestionManager
         return $questions;
     }
 
+    public function withTag(string $tag) : array
+    {
+        $questions = $this->db->connect()->executeFetchAll("
+            SELECT q.id,
+                   q.title,
+                   q.body,
+                   q.comment_container,
+                   q.author
+              FROM questions AS q
+              JOIN questions_has_tags AS qt
+                ON qt.question = q.id
+              JOIN tags AS t
+                ON t.id = qt.tag
+             WHERE t.name = ?
+            ;
+        ", [$tag]);
+
+    foreach ($questions as $key => $q) {
+        $questions[$key] = $this->fromDbData($q);
+    }
+
+    return $questions;
+    }
+
     public function byID(int $id) : Question
     {
         $question = $this->db->connect()->executeFetch("

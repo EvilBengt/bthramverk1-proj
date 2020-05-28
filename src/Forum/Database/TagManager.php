@@ -1,0 +1,46 @@
+<?php
+
+namespace EVB\Forum\Database;
+
+use Anax\Database\Database;
+use EVB\Forum\Models\Tag;
+
+class TagManager
+{
+    /**
+     * Database connection
+     *
+     * @var Database
+     */
+    private $db;
+
+
+    public function __construct(Database $db) {
+        $this->db = $db;
+    }
+
+
+    public function all() : array
+    {
+        $data = $this->db->connect()->executeFetchAll("
+            SELECT id, name
+              FROM tags
+            ;
+        ");
+
+        foreach ($data as $key => $tag) {
+            $data[$key] = $this->fromDbData($tag);
+        }
+
+        return $data;
+    }
+
+
+    private function fromDbData(array $data) : Tag
+    {
+        return new Tag(
+            $data["id"],
+            $data["name"]
+        );
+    }
+}
