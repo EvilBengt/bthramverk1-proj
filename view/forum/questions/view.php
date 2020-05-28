@@ -5,6 +5,11 @@ namespace Anax\View;
 ?>
 
 <h1><?= $question->getTitle() ?></h1>
+<ul class="question-tag-list">
+    <?php foreach ($question->getTags() as $t) { ?>
+    <li class="question-tag"><a href="<?= url("questions?tag=" . \urlencode($t->getName())) ?>"><?= $t->getName() ?></a></li>
+    <?php }; ?>
+</ul>
 
 <div class="question-body">
     <?= $question->getBody() ?>

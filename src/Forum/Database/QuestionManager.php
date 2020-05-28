@@ -12,6 +12,7 @@ use EVB\Forum\Models\CommentContainer;
 use EVB\Forum\Database\UserManager;
 use EVB\Forum\Database\CommentManager;
 use EVB\Forum\Database\AnswerManager;
+use EVB\Forum\Database\TagManager;
 
 class QuestionManager
 {
@@ -50,13 +51,21 @@ class QuestionManager
      */
     private $textFilter;
 
+    /**
+     * Tag manager
+     *
+     * @var TagManager
+     */
+    private $tagManager;
 
-    public function __construct(Database $db, UserManager $userManager, CommentManager $commentManager, AnswerManager $answerManager, TextFilter $textFilter) {
+
+    public function __construct(Database $db, UserManager $userManager, CommentManager $commentManager, AnswerManager $answerManager, TextFilter $textFilter, TagManager $tagManager) {
         $this->db = $db;
         $this->userManager = $userManager;
         $this->commentManager = $commentManager;
         $this->answerManager = $answerManager;
         $this->textFilter = $textFilter;
+        $this->tagManager = $tagManager;
     }
 
 
@@ -119,7 +128,8 @@ class QuestionManager
             $this->textFilter->markdown($data["body"]),
             $this->commentManager->byContainerID($data["comment_container"]),
             $this->userManager->byID($data["author"]),
-            $this->answerManager->byQuestionID($data["id"])
+            $this->answerManager->byQuestionID($data["id"]),
+            $this->tagManager->byQuestionID($data["id"])
         );
     }
 }

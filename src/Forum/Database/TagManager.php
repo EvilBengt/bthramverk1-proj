@@ -35,6 +35,24 @@ class TagManager
         return $data;
     }
 
+    public function byQuestionID(int $id) : array
+    {
+        $data = $this->db->connect()->executeFetchAll("
+            SELECT t.id AS id,
+                   t.name AS name
+              FROM questions_has_tags AS qt
+              JOIN tags AS t
+                ON t.id = qt.tag
+             WHERE qt.question = ?
+        ", [$id]);
+
+        foreach ($data as $key => $tag) {
+            $data[$key] = $this->fromDbData($tag);
+        }
+
+        return $data;
+    }
+
 
     private function fromDbData(array $data) : Tag
     {

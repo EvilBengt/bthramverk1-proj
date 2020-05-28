@@ -10,9 +10,10 @@ class Question
     private $comments;
     private $author;
     private $answers;
+    private $tags;
 
 
-    public function __construct($id, $title, $body, $comments, $author, $answers)
+    public function __construct($id, $title, $body, $comments, $author, $answers, $tags)
     {
         $this->id = $id;
         $this->title = $title;
@@ -20,6 +21,7 @@ class Question
         $this->comments = $comments;
         $this->author = $author;
         $this->answers = $answers;
+        $this->tags = $tags;
     }
 
 
@@ -48,9 +50,13 @@ class Question
         return $this->author;
     }
 
-
     public function getAnswers() : array
     {
         return $this->answers;
+    }
+
+    public function getTags() : array
+    {
+        return $this->tags;
     }
 }

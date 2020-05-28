@@ -12,7 +12,8 @@ return [
                     $this->get("userManager"),
                     $this->get("commentManager"),
                     $this->get("answerManager"),
-                    $this->get("textfilter")
+                    $this->get("textfilter"),
+                    $this->get("tagManager")
                 );
             }
         ],
