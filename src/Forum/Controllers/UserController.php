@@ -36,13 +36,32 @@ class UserController implements ContainerInjectableInterface
         $page = $this->di->get("page");
         $response = $this->di->get("response");
         $userManager = $this->di->get("userManager");
+        $questionManager = $this->di->get("questionManager");
+        $answerManager = $this->di->get("answerManager");
 
         if (!$session->get("loggedIn", false)) {
             return $response->redirect("users/login");
         }
 
+        $user = $userManager->byID($session->get("userID"));
+
+        $questions = $questionManager->byUserID($user->getID());
+        $answers = $answerManager->byUserID($user->getID());
+
+        $answeredQuestions = [];
+        foreach ($answers as $a) {
+            $answeredQuestions[$a->getQuestionID()] = $questionManager->byID($a->getQuestionID());
+        }
+
+        $page->add("forum/users/view", [
+            "user" => $user,
+            "asked" => $questions,
+            "answers" => $answers,
+            "answered" => $answeredQuestions,
+            "showEditLink" => false
+        ]);
         $page->add("forum/users/me", [
-            "user" => $userManager->byID($session->get("userID"))
+            "user" => $user
         ]);
 
         return $page->render([
@@ -165,6 +184,7 @@ class UserController implements ContainerInjectableInterface
         $userManager = $this->di->get("userManager");
         $questionManager = $this->di->get("questionManager");
         $answerManager = $this->di->get("answerManager");
+        $session = $this->di->get("session");
 
         $user = $userManager->byID($id);
         $questions = $questionManager->byUserID($id);
@@ -179,7 +199,8 @@ class UserController implements ContainerInjectableInterface
             "user" => $user,
             "asked" => $questions,
             "answers" => $answers,
-            "answered" => $answeredQuestions
+            "answered" => $answeredQuestions,
+            "showEditLink" => $user->getID() == $session->get("userID", -1)
         ]);
 
         return $page->render([

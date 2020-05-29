@@ -30,3 +30,7 @@ namespace Anax\View;
     <li><a href="<?= url("questions/view/" . $answered[$a->getQuestionID()]->getID()) . "#a" . $a->getID() ?>"><?= $answered[$a->getQuestionID()]->getTitle() ?></a></li>
     <?php }; ?>
 </ul>
+
+<?php if ($showEditLink) { ?>
+<h2><a href="<?= url("users/me") ?>">Edit your information</a></h2>
+<?php }; ?>
