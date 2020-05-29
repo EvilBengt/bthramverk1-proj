@@ -71,7 +71,7 @@ class UserManager
                 UPDATE users
                    SET email         = ?,
                        display_name  = ?,
-                       bio           = ?
+                       bio           = ?,
                        password_hash = ?
                  WHERE id = ?
             ", [
