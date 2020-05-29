@@ -21,7 +21,16 @@ return [
         [
             "text" => "Questions",
             "url" => "questions",
-            "title" => "Overview of all questions."
+            "title" => "Overview of all questions.",
+            "submenu" => [
+                "items" => [
+                    [
+                        "text" => "Ask",
+                        "url" => "questions/ask",
+                        "title" => "Ask a new question"
+                    ]
+                ]
+            ]
         ],
         [
             "text" => "Tags",
