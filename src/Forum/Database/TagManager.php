@@ -23,7 +23,7 @@ class TagManager
     public function all() : array
     {
         $data = $this->db->connect()->executeFetchAll("
-            SELECT id, name
+            SELECT id, name, frequency
               FROM tags
             ;
         ");
@@ -35,15 +35,34 @@ class TagManager
         return $data;
     }
 
+    public function hottest(int $count = 5) : array
+    {
+        $data = $this->db->connect()->executeFetchAll("
+            SELECT id, name, frequency
+              FROM tags
+             ORDER BY frequency DESC
+             LIMIT ?
+            ;
+        ", [$count]);
+
+        foreach ($data as $key => $tag) {
+            $data[$key] = $this->fromDbData($tag);
+        }
+
+        return $data;
+    }
+
     public function byQuestionID(int $id) : array
     {
         $data = $this->db->connect()->executeFetchAll("
-            SELECT t.id AS id,
-                   t.name AS name
+            SELECT t.id        AS id,
+                   t.name      AS name,
+                   t.frequency AS frequency
               FROM questions_has_tags AS qt
               JOIN tags AS t
                 ON t.id = qt.tag
              WHERE qt.question = ?
+            ;
         ", [$id]);
 
         foreach ($data as $key => $tag) {
@@ -59,6 +78,7 @@ class TagManager
             $this->db->connect()->execute("
             INSERT INTO questions_has_tags(question, tag)
             VALUES (?, ?)
+            ;
             ", [
                 $questionID, $t
             ]);
@@ -70,6 +90,7 @@ class TagManager
         $this->db->connect()->execute("
             INSERT INTO tags(name)
             VALUES (?)
+            ;
         ", [$name]);
     }
 
@@ -78,7 +99,8 @@ class TagManager
     {
         return new Tag(
             $data["id"],
-            $data["name"]
+            $data["name"],
+            $data["frequency"]
         );
     }
 }

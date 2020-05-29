@@ -84,6 +84,23 @@ class QuestionManager
         return $questions;
     }
 
+    public function latest(int $count = 3) : array
+    {
+        $questions = $this->db->connect()->executeFetchAll("
+            SELECT id, title, body, comment_container, author
+              FROM questions
+             ORDER BY id DESC
+             LIMIT ?
+            ;
+        ", [$count]);
+
+        foreach ($questions as $key => $q) {
+            $questions[$key] = $this->fromDbData($q);
+        }
+
+        return $questions;
+    }
+
     public function withTag(string $tag) : array
     {
         $questions = $this->db->connect()->executeFetchAll("

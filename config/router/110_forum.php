@@ -19,5 +19,10 @@ return [
             "mount" => "comments",
             "handler" => "\EVB\Forum\Controllers\CommentController",
         ],
+        [
+            "info" => "Home page.",
+            "mount" => "",
+            "handler" => "\EVB\Forum\Controllers\HomeController"
+        ]
     ]
 ];

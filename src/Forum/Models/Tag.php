@@ -6,12 +6,14 @@ class Tag
 {
     private $id;
     private $name;
+    private $frequency;
 
 
-    public function __construct($id, $name)
+    public function __construct($id, $name, $frequency)
     {
         $this->id = $id;
         $this->name = $name;
+        $this->frequency = $frequency;
     }
 
 
@@ -23,5 +25,10 @@ class Tag
     public function getName() : string
     {
         return $this->name;
+    }
+
+    public function getFrequency() : string
+    {
+        return $this->frequency;
     }
 }
