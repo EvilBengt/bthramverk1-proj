@@ -53,6 +53,18 @@ class TagManager
         return $data;
     }
 
+    public function attach(int $questionID, array $tags)
+    {
+        foreach ($tags as $t) {
+            $this->db->connect()->execute("
+            INSERT INTO questions_has_tags(question, tag)
+            VALUES (?, ?)
+            ", [
+                $questionID, $t
+            ]);
+        }
+    }
+
 
     private function fromDbData(array $data) : Tag
     {

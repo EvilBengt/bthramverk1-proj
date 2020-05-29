@@ -12,8 +12,8 @@ namespace Anax\View;
         <legend>Tags</legend>
         <?php foreach ($tags as $t) { ?>
         <label class="form-tag">
-            <input type="checkbox" name="tags[]" value="<?= $t->id ?>">
-            <span class="form-tag-label"><?= $t->name ?></span>
+            <input type="checkbox" name="tags[]" value="<?= $t->getID() ?>">
+            <span class="form-tag-label"><?= $t->getName() ?></span>
             <br>
         </label>
         <?php }; ?>

@@ -101,11 +101,11 @@ class QuestionManager
             ;
         ", [$tag]);
 
-    foreach ($questions as $key => $q) {
-        $questions[$key] = $this->fromDbData($q);
-    }
+        foreach ($questions as $key => $q) {
+            $questions[$key] = $this->fromDbData($q);
+        }
 
-    return $questions;
+        return $questions;
     }
 
     public function byID(int $id) : Question
@@ -117,6 +117,34 @@ class QuestionManager
         ", [$id]);
 
         return $this->fromDbData($question);
+    }
+
+    public function create(string $title, string $body, int $author, array $tags) : int
+    {
+        $this->db->connect()->execute("
+            INSERT INTO comment_containers()
+            VALUES ()
+            ;
+        ");
+
+        $commentContainer = $this->db->lastInsertId();
+
+        $this->db->connect()->execute("
+            INSERT INTO questions(title, body, comment_container, author)
+            VALUES (?, ?, ?, ?)
+            ;
+        ", [
+            $title,
+            $body,
+            $commentContainer,
+            $author
+        ]);
+
+        $id = $this->db->lastInsertId();
+
+        $this->tagManager->attach($id, $tags);
+
+        return $id;
     }
 
 

@@ -56,11 +56,15 @@ class QuestionController implements ContainerInjectableInterface
     public function askActionGet() : object
     {
         $page = $this->di->get("page");
-        $dbqb = $this->di->get("dbqb");
+        $tagManager = $this->di->get("tagManager");
+        $session = $this->di->get("session");
+        $response = $this->di->get("response");
 
-        $tag = new Tag();
-        $tag->setDb($dbqb);
-        $tags = $tag->findAll();
+        if (!$session->get("loggedIn", false)) {
+            return $response->redirect("users");
+        }
+
+        $tags = $tagManager->all();
 
         $page->add("forum/questions/form", [
             "tags" => $tags
@@ -75,18 +79,23 @@ class QuestionController implements ContainerInjectableInterface
     {
         $request = $this->di->get("request");
         $response = $this->di->get("response");
-        $dbqb = $this->di->get("dbqb");
         $session = $this->di->get("session");
+        $questionManager = $this->di->get("questionManager");
+        $userManager = $this->di->get("userManager");
 
-        $question = new Question();
-        $question->setDb($dbqb);
+        if (!$session->get("loggedIn", false)) {
+            return $response->redirect("users");
+        }
 
-        $question->title = $request->getPost("title");
-        $question->body = $request->getPost("body");
+        $user = $userManager->byUsername($session->get("username"));
 
-        $tags = $request->getPost("tags", []);
+        $questionID = $questionManager->create(
+            $request->getPost("title"),
+            $request->getPost("body"),
+            $user->getID(),
+            $request->getPost("tags", [])
+        );
 
-        $question->save();
-        $question->saveTags($tags);
+        $response->redirect("questions/view/" . $questionID);
     }
 }

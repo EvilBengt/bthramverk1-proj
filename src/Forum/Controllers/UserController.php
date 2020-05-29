@@ -28,7 +28,7 @@ class UserController implements ContainerInjectableInterface
             $page->add("forum/users/overview");
         } else {
             $page->add("forum/users/login", [
-                "username" => $session->get("username", ""),
+                "username" => $session->getOnce("username", ""),
                 "error" => $session->getOnce("loginError", "")
             ]);
         }
