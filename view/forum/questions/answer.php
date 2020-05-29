@@ -29,21 +29,7 @@ namespace Anax\View;
     <?php }; ?>
 </ul>
 
-<h2>Answers</h2>
-<a class="call-to-action" href="<?= url("questions/answer/" . $question->getID()) ?>">Write an answer</a>
-<ul class="answers">
-    <?php foreach ($question->getAnswers() as $a) { ?>
-    <li class="answer" id="a<?= $a->getID() ?>">
-        <p class="answer-body"><?= $a->getBody() ?></p>
-        <a class="answer-author" href="<?= url("users/view/" . $a->getAuthor()->getID()) ?>"><?= $a->getAuthor()->getUsername() ?></a>
-        <ul class="comments">
-            <?php foreach ($a->getComments() as $c) { ?>
-            <li class="comment">
-                <p class="comment-body"><?= $c->getBody() ?></p>
-                <a class="comment-author" href="<?= url("users/view/" . $c->getAuthor()->getID()) ?>"><?= $c->getauthor()->getUsername() ?></a>
-            </li>
-            <?php }; ?>
-        </ul>
-    </li>
-    <?php }; ?>
-</ul>
+<form method="POST" action="<?= url("questions/answer/" . $question->getID()) ?>">
+    <textarea name="body" placeholder="Your answer" required></textarea>
+    <button type="submit">Submit</button>
+</form>

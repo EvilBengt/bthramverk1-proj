@@ -66,7 +66,7 @@ class QuestionController implements ContainerInjectableInterface
 
         $tags = $tagManager->all();
 
-        $page->add("forum/questions/form", [
+        $page->add("forum/questions/ask", [
             "tags" => $tags
         ]);
 
@@ -96,6 +96,50 @@ class QuestionController implements ContainerInjectableInterface
             $request->getPost("tags", [])
         );
 
-        $response->redirect("questions/view/" . $questionID);
+        return $response->redirect("questions/view/" . $questionID);
+    }
+
+    public function answerActionGet($id) : object
+    {
+        $page = $this->di->get("page");
+        $session = $this->di->get("session");
+        $response = $this->di->get("response");
+        $questionManager = $this->di->get("questionManager");
+
+        if (!$session->get("loggedIn", false)) {
+            return $response->redirect("users");
+        }
+
+        $page->add("forum/questions/answer", [
+            "question" => $questionManager->byID($id)
+        ]);
+
+        return $page->render([
+            "title" => "Write your answer"
+        ]);
+    }
+
+    public function answerActionPost($id) : object
+    {
+        $request = $this->di->get("request");
+        $response = $this->di->get("response");
+        $session = $this->di->get("session");
+        $questionManager = $this->di->get("questionManager");
+        $userManager = $this->di->get("userManager");
+        $answerManager = $this->di->get("answerManager");
+
+        if (!$session->get("loggedIn", false)) {
+            return $response->redirect("users");
+        }
+
+        $user = $userManager->byUsername($session->get("username"));
+
+        $answerID = $answerManager->create(
+            $id,
+            $request->getPost("body"),
+            $user->getID()
+        );
+
+        return $response->redirect("questions/view/" . $id . "#a" . $answerID);
     }
 }

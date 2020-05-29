@@ -79,6 +79,30 @@ class AnswerManager
         return $this->fromDbData($answer);
     }
 
+    public function create(int $questionID, string $body, int $author) : int
+    {
+        $this->db->connect()->execute("
+            INSERT INTO comment_containers()
+            VALUES ()
+            ;
+        ");
+
+        $commentContainer = $this->db->lastInsertId();
+
+        $this->db->connect()->execute("
+            INSERT INTO answers(question, body, comment_container, author)
+            VALUES (?, ?, ?, ?)
+            ;
+        ", [
+            $questionID,
+            $body,
+            $commentContainer,
+            $author
+        ]);
+
+        return $this->db->lastInsertId();
+    }
+
 
     private function fromDbData(array $data) : Answer
     {
