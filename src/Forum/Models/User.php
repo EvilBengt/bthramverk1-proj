@@ -7,19 +7,26 @@ class User
     private $email;
     private $displayName;
     private $passwordHash;
+    private $bio;
     private $id;
 
-    public function __construct($email, $displayName, $passwordHash, $id)
+    public function __construct($email, $displayName, $passwordHash, $bio, $id)
     {
         $this->email = $email;
         $this->displayName = $displayName;
         $this->passwordHash = $passwordHash;
+        $this->bio = $bio;
         $this->id = $id;
     }
 
     public function getEmail() : string
     {
         return $this->email;
+    }
+
+    public function getDisplayName()
+    {
+        return $this->displayName;
     }
 
     public function getName() : string
@@ -33,6 +40,11 @@ class User
     public function getPasswordHash() : string
     {
         return $this->passwordHash;
+    }
+
+    public function getBio()
+    {
+        return $this->bio;
     }
 
     public function checkPassword($password) : bool
