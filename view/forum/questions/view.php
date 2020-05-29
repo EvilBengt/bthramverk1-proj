@@ -28,7 +28,7 @@ namespace Anax\View;
     <li class="comment" id="c<?= $c->getID() ?>">
         <p class="comment-body"><?= $c->getBody() ?></p>
         <a class="author comment-author" href="<?= url("users/view/" . $c->getAuthor()->getID()) ?>">
-            <img class="author-img" src="<?= $c->getAuthor()->getImageLink() ?>" alt="The user's profile picture">
+            <img class="author-img" src="<?= $c->getAuthor()->getImageLink(20) ?>" alt="The user's profile picture">
             <span class="author-name"><?= $c->getAuthor()->getName() ?></span>
         </a>
     </li>
@@ -54,7 +54,7 @@ namespace Anax\View;
             <li class="comment" id="c<?= $c->getID() ?>">
                 <p class="comment-body"><?= $c->getBody() ?></p>
                 <a class="author comment-author" href="<?= url("users/view/" . $c->getAuthor()->getID()) ?>">
-                    <img class="author-img" src="<?= $c->getAuthor()->getImageLink() ?>" alt="The user's profile picture">
+                    <img class="author-img" src="<?= $c->getAuthor()->getImageLink(20) ?>" alt="The user's profile picture">
                     <span class="author-name"><?= $c->getAuthor()->getName() ?></span>
                 </a>
             </li>
