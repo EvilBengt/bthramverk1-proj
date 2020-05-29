@@ -65,6 +65,14 @@ class TagManager
         }
     }
 
+    public function create(string $name)
+    {
+        $this->db->connect()->execute("
+            INSERT INTO tags(name)
+            VALUES (?)
+        ", [$name]);
+    }
+
 
     private function fromDbData(array $data) : Tag
     {

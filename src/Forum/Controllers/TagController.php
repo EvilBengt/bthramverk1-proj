@@ -26,4 +26,15 @@ class TagController implements ContainerInjectableInterface
             "title" => "Tags"
         ]);
     }
+
+    public function createActionPost() : object
+    {
+        $request = $this->di->get("request");
+        $response = $this->di->get("response");
+        $tagManager = $this->di->get("tagManager");
+
+        $tagManager->create($request->getPost("name"));
+
+        return $response->redirect("tags");
+    }
 }
