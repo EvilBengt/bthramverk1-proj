@@ -41,6 +41,9 @@ class QuestionController implements ContainerInjectableInterface
         $page = $this->di->get("page");
         $textfilter = $this->di->get("textfilter");
         $questionManager = $this->di->get("questionManager");
+        $session = $this->di->get("session");
+
+        $session->set("lastViewedQuestion", $id);
 
         $question = $questionManager->byID($id);
 

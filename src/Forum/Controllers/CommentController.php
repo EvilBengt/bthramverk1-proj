@@ -31,6 +31,6 @@ class CommentController implements ContainerInjectableInterface
             $user->getID()
         );
 
-        return $response->redirect("questions");
+        return $response->redirect("questions/view/" . $session->get("lastViewedQuestion") . "#c" . $commentID);
     }
 }
