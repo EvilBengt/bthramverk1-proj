@@ -108,6 +108,21 @@ class QuestionManager
         return $questions;
     }
 
+    public function byUserID(int $id) : array
+    {
+        $questions = $this->db->connect()->executeFetchAll("
+            SELECT id, title, body, comment_container, author
+              FROM questions
+             WHERE author = ?
+        ", [$id]);
+
+        foreach ($questions as $key => $q) {
+            $questions[$key] = $this->fromDbData($q);
+        }
+
+        return $questions;
+    }
+
     public function byID(int $id) : Question
     {
         $question = $this->db->connect()->executeFetch("

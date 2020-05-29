@@ -3,6 +3,7 @@
 namespace EVB\Forum\Database;
 
 use Anax\Database\Database;
+use Anax\TextFilter\TextFilter;
 use EVB\Forum\Models\User;
 
 class UserManager
@@ -14,9 +15,17 @@ class UserManager
      */
     private $db;
 
+    /**
+     * Text filter
+     *
+     * @var TextFilter
+     */
+    private $textFilter;
 
-    public function __construct(Database $db) {
+
+    public function __construct(Database $db, TextFilter $textFilter) {
         $this->db = $db;
+        $this->textFilter = $textFilter;
     }
 
 
@@ -33,7 +42,7 @@ class UserManager
             ;
         ", [$email]);
 
-        return new User($data["email"], $data["display_name"], $data["password_hash"], $data["bio"], $data["id"]);
+        return new User($this->textFilter, $data["email"], $data["display_name"], $data["password_hash"], $data["bio"], $data["id"]);
     }
 
     public function byID(int $id) : User
@@ -49,7 +58,7 @@ class UserManager
             ;
         ", [$id]);
 
-        return new User($data["email"], $data["display_name"], $data["password_hash"], $data["bio"], $data["id"]);
+        return new User($this->textFilter, $data["email"], $data["display_name"], $data["password_hash"], $data["bio"], $data["id"]);
     }
 
     public function create(string $email, string $password)

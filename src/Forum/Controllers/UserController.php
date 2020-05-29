@@ -46,7 +46,7 @@ class UserController implements ContainerInjectableInterface
         ]);
 
         return $page->render([
-            "title" => "Users"
+            "title" => "Profile"
         ]);
     }
 
@@ -87,7 +87,7 @@ class UserController implements ContainerInjectableInterface
         ]);
 
         return $page->render([
-            "title" => "Users"
+            "title" => "Login"
         ]);
     }
 
@@ -157,5 +157,33 @@ class UserController implements ContainerInjectableInterface
             $session->set("signupError", "Something went wrong, email may already be in use.");
             return $response->redirect("users/signup");
         }
+    }
+
+    public function viewAction($id) : object
+    {
+        $page = $this->di->get("page");
+        $userManager = $this->di->get("userManager");
+        $questionManager = $this->di->get("questionManager");
+        $answerManager = $this->di->get("answerManager");
+
+        $user = $userManager->byID($id);
+        $questions = $questionManager->byUserID($id);
+        $answers = $answerManager->byUserID($id);
+
+        $answeredQuestions = [];
+        foreach ($answers as $a) {
+            $answeredQuestions[$a->getQuestionID()] = $questionManager->byID($a->getQuestionID());
+        }
+
+        $page->add("forum/users/view", [
+            "user" => $user,
+            "asked" => $questions,
+            "answers" => $answers,
+            "answered" => $answeredQuestions
+        ]);
+
+        return $page->render([
+            "title" => $user->getName()
+        ]);
     }
 }

@@ -79,6 +79,21 @@ class AnswerManager
         return $this->fromDbData($answer);
     }
 
+    public function byUserID(int $id) : array
+    {
+        $answers = $this->db->connect()->executeFetchAll("
+            SELECT id, question, body, comment_container, author
+              FROM answers
+             WHERE author = ?
+        ", [$id]);
+
+        foreach ($answers as $key => $a) {
+            $answers[$key] = $this->fromDbData($a);
+        }
+
+        return $answers;
+    }
+
     public function create(int $questionID, string $body, int $author) : int
     {
         $this->db->connect()->execute("

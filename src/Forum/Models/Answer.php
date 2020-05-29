@@ -28,7 +28,7 @@ class Answer
         return $this->id;
     }
 
-    public function getQuestion() : Question
+    public function getQuestionID() : int
     {
         return $this->question;
     }

@@ -2,16 +2,26 @@
 
 namespace EVB\Forum\Models;
 
+use \Anax\TextFilter\TextFilter;
+
 class User
 {
+    /**
+     * Text filter
+     *
+     * @var TextFilter
+     */
+    private $textFilter;
+
     private $email;
     private $displayName;
     private $passwordHash;
     private $bio;
     private $id;
 
-    public function __construct($email, $displayName, $passwordHash, $bio, $id)
+    public function __construct(TextFilter $textFilter, $email, $displayName, $passwordHash, $bio, $id)
     {
+        $this->textFilter = $textFilter;
         $this->email = $email;
         $this->displayName = $displayName;
         $this->passwordHash = $passwordHash;
@@ -42,8 +52,11 @@ class User
         return $this->passwordHash;
     }
 
-    public function getBio()
+    public function getBio(bool $parsed = false)
     {
+        if ($this->bio != null && $parsed) {
+            return $this->textFilter->markdown($this->bio);
+        }
         return $this->bio;
     }
 
