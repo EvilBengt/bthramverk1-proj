@@ -20,9 +20,9 @@ namespace Anax\View;
     <?= $question->getBody() ?>
 </div>
 <a class="author question-author" href="<?= url("users/view/" . $question->getAuthor()->getID()) ?>">
-            <img class="author-img" src="<?= $question->getAuthor()->getImageLink() ?>" alt="The user's profile picture">
-            <span class="author-name"><?= $question->getAuthor()->getName() ?></span>
-        </a>
+    <img class="author-img" src="<?= $question->getAuthor()->getImageLink() ?>" alt="The user's profile picture">
+    <span class="author-name"><?= $question->getAuthor()->getName() ?></span>
+</a>
 <ul class="comments">
     <?php foreach ($question->getComments() as $c) { ?>
     <li class="comment" id="c<?= $c->getID() ?>">
