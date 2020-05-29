@@ -4,7 +4,12 @@ namespace Anax\View;
 
 ?>
 
-<h1><?= $user->getName() ?></h1>
+<h1>
+    <?= $user->getName() ?>
+    <span class="right">
+        <strong title="Reputation">[<?= $user->getRep() ?>]</strong>
+    </span>
+</h1>
 
 <p>
     <?= $user->getBio(true) ?>

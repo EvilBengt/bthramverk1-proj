@@ -4,7 +4,13 @@ namespace Anax\View;
 
 ?>
 
-<h1><?= $user->getName() ?></h1>
+<h1>
+    <?= $user->getName() ?>
+    <span class="right">
+        <strong title="Your reputation">[<?= $user->getRep() ?>]</strong>
+    </span>
+</h1>
+
 
 <form method="POST" action="<?= url("users/me") ?>">
     <fieldset>

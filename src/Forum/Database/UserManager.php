@@ -36,13 +36,36 @@ class UserManager
                    display_name,
                    password_hash,
                    bio,
+                   reputation,
                    id
               FROM users
              WHERE email = ?
             ;
         ", [$email]);
 
-        return new User($this->textFilter, $data["email"], $data["display_name"], $data["password_hash"], $data["bio"], $data["id"]);
+        return $this->fromDbData($data);
+    }
+
+    public function hottest(int $count = 5) : array
+    {
+        $data = $this->db->connect()->executeFetchAll("
+            SELECT email,
+                   display_name,
+                   password_hash,
+                   bio,
+                   reputation,
+                   id
+              FROM users
+             ORDER BY reputation DESC
+             LIMIT ?
+            ;
+        ", [$count]);
+
+        foreach ($data as $key => $u) {
+            $data[$key] = $this->fromDbData($u);
+        }
+
+        return $data;
     }
 
     public function byID(int $id) : User
@@ -52,13 +75,14 @@ class UserManager
                    display_name,
                    password_hash,
                    bio,
+                   reputation,
                    id
               FROM users
              WHERE id = ?
             ;
         ", [$id]);
 
-        return new User($this->textFilter, $data["email"], $data["display_name"], $data["password_hash"], $data["bio"], $data["id"]);
+        return $this->fromDbData($data);
     }
 
     public function create(string $email, string $password)
@@ -104,5 +128,19 @@ class UserManager
                 $id
             ]);
         }
+    }
+
+
+    private function fromDbData(array $data) : User
+    {
+        return new User(
+            $this->textFilter,
+            $data["email"],
+            $data["display_name"],
+            $data["password_hash"],
+            $data["bio"],
+            $data["reputation"],
+            $data["id"]
+        );
     }
 }

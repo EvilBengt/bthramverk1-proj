@@ -19,3 +19,10 @@ namespace Anax\View;
     <li><a href="<?= url("questions?tag=" . \urlencode($t->getName())) ?>">(<?= $t->getFrequency() ?>) <?= $t->getName() ?></a></li>
     <?php }; ?>
 </ul>
+
+<h2>Hottest users</h2>
+<ul>
+    <?php foreach ($hottestUsers as $u) { ?>
+    <li><a href="<?= url("users/view/" . $u->getID()) ?>">(<?= $u->getRep() ?>) <?= $u->getName() ?></a></li>
+    <?php }; ?>
+</ul>

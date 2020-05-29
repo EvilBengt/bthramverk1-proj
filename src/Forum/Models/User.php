@@ -17,15 +17,17 @@ class User
     private $displayName;
     private $passwordHash;
     private $bio;
+    private $rep;
     private $id;
 
-    public function __construct(TextFilter $textFilter, $email, $displayName, $passwordHash, $bio, $id)
+    public function __construct(TextFilter $textFilter, $email, $displayName, $passwordHash, $bio, $rep, $id)
     {
         $this->textFilter = $textFilter;
         $this->email = $email;
         $this->displayName = $displayName;
         $this->passwordHash = $passwordHash;
         $this->bio = $bio;
+        $this->rep = $rep;
         $this->id = $id;
     }
 
@@ -60,9 +62,9 @@ class User
         return $this->bio;
     }
 
-    public function checkPassword($password) : bool
+    public function getRep() : int
     {
-        return \password_verify($password, $this->passwordHash);
+        return $this->rep;
     }
 
     public function getID() : int
@@ -75,5 +77,10 @@ class User
         $emailHash = \md5(\strtolower(\trim($this->email)));
 
         return "http://www.gravatar.com/avatar/" . $emailHash . "?d=retro&s=" . $size;
+    }
+
+    public function checkPassword($password) : bool
+    {
+        return \password_verify($password, $this->passwordHash);
     }
 }

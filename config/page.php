@@ -19,6 +19,7 @@ return [
             "lang" => "en",
             "stylesheets" => [
                 "css/dbwebb-se.min.css",
+                "css/overrides.css"
             ],
             "javascripts" => [
                 "js/responsive-menu.js",
