@@ -23,7 +23,7 @@ class CommentController implements ContainerInjectableInterface
             return $response->redirect("users");
         }
 
-        $user = $userManager->byUsername($session->get("username"));
+        $user = $userManager->byEmail($session->get("email"));
 
         $commentID = $commentManager->create(
             $id,

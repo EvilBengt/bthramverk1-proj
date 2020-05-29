@@ -28,7 +28,7 @@ class UserController implements ContainerInjectableInterface
             $page->add("forum/users/overview");
         } else {
             $page->add("forum/users/login", [
-                "username" => $session->getOnce("username", ""),
+                "email" => $session->getOnce("email", ""),
                 "error" => $session->getOnce("loginError", "")
             ]);
         }
@@ -45,17 +45,17 @@ class UserController implements ContainerInjectableInterface
         $session = $this->di->get("session");
         $userManager = $this->di->get("userManager");
 
-        $username = $request->getPost("username", "");
+        $email = $request->getPost("email", "");
         $password = $request->getPost("password");
 
-        $session->set("username", $username);
+        $session->set("email", $email);
 
-        $user = $userManager->byUsername($username);
+        $user = $userManager->byEmail($email);
 
         if ($user != null && $user->checkPassword($password)) {
             $session->set("loggedIn", true);
         } else {
-            $session->set("loginError", "Incorrect username and/or password");
+            $session->set("loginError", "Incorrect email and/or password");
         }
 
         return $response->redirect("users");
@@ -66,7 +66,7 @@ class UserController implements ContainerInjectableInterface
         $session = $this->di->get("session");
         $response = $this->di->get("response");
 
-        $session->delete("username");
+        $session->delete("email");
         $session->delete("loggedIn");
 
         return $response->redirect("users");
@@ -93,17 +93,15 @@ class UserController implements ContainerInjectableInterface
         $session = $this->di->get("session");
         $userManager = $this->di->get("userManager");
 
-        $user = $userManager->instantiate(
-            $request->getPost("username", ""),
-            $request->getPost("password", "")
-        );
-
         try {
-            $userManager->save($user);
-            $session->set("username", $user->getUsername());
+            $userManager->create(
+                $request->getPost("email", ""),
+                $request->getPost("password", "")
+            );
+            $session->set("email", $user->getEmail());
             return $response->redirect("users");
         } catch (\Exception $e) {
-            $session->set("signupError", "Something went wrong, username may already exist.");
+            $session->set("signupError", "Something went wrong, email may already be in use.");
             return $response->redirect("users/signup");
         }
     }
