@@ -22,12 +22,16 @@ namespace Anax\View;
 <a class="question-author" href="<?= url("users/view/" . $question->getAuthor()->getID()) ?>"><?= $question->getAuthor()->getUsername() ?></a>
 <ul class="comments">
     <?php foreach ($question->getComments() as $c) { ?>
-    <li class="comment">
+    <li class="comment" id="c<?= $c->getID() ?>">
         <p class="comment-body"><?= $c->getBody() ?></p>
         <a class="comment-author" href="<?= url("users/view/" . $c->getAuthor()->getID()) ?>"><?= $c->getAuthor()->getUsername() ?></a>
     </li>
     <?php }; ?>
 </ul>
+<form class="comment-form" method="POST" action="<?= url("comments/create/" . $question->getCommentContainerID()) ?>">
+<input type="text" name="body" placeholder="Comment" required>
+    <button type="submit">Submit</button>
+</form>
 
 <h2>Answers</h2>
 <a class="call-to-action" href="<?= url("questions/answer/" . $question->getID()) ?>">Write an answer</a>
@@ -38,12 +42,16 @@ namespace Anax\View;
         <a class="answer-author" href="<?= url("users/view/" . $a->getAuthor()->getID()) ?>"><?= $a->getAuthor()->getUsername() ?></a>
         <ul class="comments">
             <?php foreach ($a->getComments() as $c) { ?>
-            <li class="comment">
+            <li class="comment" id="c<?= $c->getID() ?>">
                 <p class="comment-body"><?= $c->getBody() ?></p>
                 <a class="comment-author" href="<?= url("users/view/" . $c->getAuthor()->getID()) ?>"><?= $c->getauthor()->getUsername() ?></a>
             </li>
             <?php }; ?>
         </ul>
+        <form class="comment-form" method="POST" action="<?= url("comments/create/" . $a->getCommentContainerID()) ?>">
+            <input type="text" name="body" placeholder="Comment" required>
+            <button type="submit">Submit</button>
+        </form>
     </li>
     <?php }; ?>
 </ul>

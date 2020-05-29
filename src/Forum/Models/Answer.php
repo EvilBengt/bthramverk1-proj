@@ -8,15 +8,17 @@ class Answer
     private $question;
     private $body;
     private $comments;
+    private $commentContainerID;
     private $author;
 
 
-    public function __construct($id, $question, $body, $comments, $author)
+    public function __construct($id, $question, $body, $comments, $commentContainerID, $author)
     {
         $this->id = $id;
         $this->question = $question;
         $this->body = $body;
         $this->comments = $comments;
+        $this->commentContainerID = $commentContainerID;
         $this->author = $author;
     }
 
@@ -39,6 +41,11 @@ class Answer
     public function getComments() : array
     {
         return $this->comments;
+    }
+
+    public function getCommentContainerID() : int
+    {
+        return $this->commentContainerID;
     }
 
     public function getAuthor() : User

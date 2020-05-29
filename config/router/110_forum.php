@@ -14,5 +14,10 @@ return [
             "mount" => "tags",
             "handler" => "\EVB\Forum\Controllers\TagController",
         ],
+        [
+            "info" => "Comment actions.",
+            "mount" => "comments",
+            "handler" => "\EVB\Forum\Controllers\CommentController",
+        ],
     ]
 ];

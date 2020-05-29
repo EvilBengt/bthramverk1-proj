@@ -111,6 +111,7 @@ class AnswerManager
             $data["question"],
             $this->textFilter->markdown($data["body"]),
             $this->commentManager->byContainerID($data["comment_container"]),
+            $data["comment_container"],
             $this->userManager->byID($data["author"])
         );
     }

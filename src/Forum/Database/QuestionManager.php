@@ -155,6 +155,7 @@ class QuestionManager
             $data["title"],
             $this->textFilter->markdown($data["body"]),
             $this->commentManager->byContainerID($data["comment_container"]),
+            $data["comment_container"],
             $this->userManager->byID($data["author"]),
             $this->answerManager->byQuestionID($data["id"]),
             $this->tagManager->byQuestionID($data["id"])

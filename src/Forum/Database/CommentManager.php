@@ -68,6 +68,21 @@ class CommentManager
         return $this->fromDbData($question);
     }
 
+    public function create(int $containerID, string $body, int $author) : int
+    {
+        $this->db->connect()->execute("
+            INSERT INTO comments(comment_container, author, body)
+            VALUES (?, ?, ?)
+            ;
+        ", [
+            $containerID,
+            $author,
+            $body
+        ]);
+
+        return $this->db->lastInsertId();
+    }
+
 
     private function fromDbData(array $data) : Comment
     {
