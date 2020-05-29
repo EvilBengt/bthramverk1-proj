@@ -135,7 +135,7 @@ class QuestionController implements ContainerInjectableInterface
             return $response->redirect("users");
         }
 
-        $user = $userManager->byEmail($session->get("username"));
+        $user = $userManager->byEmail($session->get("email"));
 
         $answerID = $answerManager->create(
             $id,
