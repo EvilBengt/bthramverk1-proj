@@ -90,7 +90,7 @@ class QuestionController implements ContainerInjectableInterface
             return $response->redirect("users");
         }
 
-        $user = $userManager->byEmail($session->get("email"));
+        $user = $userManager->byID($session->get("userID"));
 
         $questionID = $questionManager->create(
             $request->getPost("title"),

@@ -81,7 +81,7 @@ class UserController implements ContainerInjectableInterface
         }
 
         $userManager->update(
-            $userManager->byEmail($session->get("email"))->getID(),
+            $session->get("userID"),
             $request->getPost("email"),
             $request->getPost("displayName"),
             $request->getPost("password"),

@@ -63,6 +63,6 @@ class VoteController implements ContainerInjectableInterface
             $commentManager->voteDown($id);
         }
 
-        return $response->redirect("questions/view/" . $session->get("lastViewedQuestion"));
+        return $response->redirect("questions/view/" . $session->get("lastViewedQuestion") . "#c" . $id);
     }
 }
