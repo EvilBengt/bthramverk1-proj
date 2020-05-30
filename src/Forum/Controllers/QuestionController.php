@@ -92,11 +92,18 @@ class QuestionController implements ContainerInjectableInterface
 
         $user = $userManager->byID($session->get("userID"));
 
+        $questionTitle = \htmlentities($request->getPost("title"));
+        $questionBody = \htmlentities($request->getPost("body"));
+        $questionTags = [];
+        foreach ($request->getPost("tags", []) as $tag) {
+            $questionTags[] = \htmlentities($tag);
+        }
+
         $questionID = $questionManager->create(
-            $request->getPost("title"),
-            $request->getPost("body"),
+            $questionTitle,
+            $questionBody,
             $user->getID(),
-            $request->getPost("tags", [])
+            $questionTags
         );
 
         return $response->redirect("questions/view/" . $questionID);
@@ -117,9 +124,11 @@ class QuestionController implements ContainerInjectableInterface
 
         $user = $userManager->byID($session->get("userID"));
 
+        $answerBody = \htmlentities($request->getPost("body"));
+
         $answerID = $answerManager->create(
             $id,
-            $request->getPost("body"),
+            $answerBody,
             $user->getID()
         );
 

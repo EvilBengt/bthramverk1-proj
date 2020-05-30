@@ -17,7 +17,7 @@ class VoteController implements ContainerInjectableInterface
         $response = $this->di->get("response");
         $questionManager = $this->di->get("questionManager");
 
-        $vote = $request->getPost("vote");
+        $vote = \htmlentities($request->getPost("vote"));
 
         if ($vote == "up") {
             $questionManager->voteUp($id);
@@ -35,7 +35,7 @@ class VoteController implements ContainerInjectableInterface
         $answerManager = $this->di->get("answerManager");
         $questionManager = $this->di->get("questionManager");
 
-        $vote = $request->getPost("vote");
+        $vote = \htmlentities($request->getPost("vote"));
 
         if ($vote == "up") {
             $answerManager->voteUp($id);
@@ -55,7 +55,7 @@ class VoteController implements ContainerInjectableInterface
         $commentManager = $this->di->get("commentManager");
         $session = $this->di->get("session");
 
-        $vote = $request->getPost("vote");
+        $vote = \htmlentities($request->getPost("vote"));
 
         if ($vote == "up") {
             $commentManager->voteUp($id);

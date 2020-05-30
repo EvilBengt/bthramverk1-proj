@@ -25,9 +25,11 @@ class CommentController implements ContainerInjectableInterface
 
         $user = $userManager->byID($session->get("userID"));
 
+        $commentBody = \htmlentities($request->getPost("body"));
+
         $commentID = $commentManager->create(
             $id,
-            $request->getPost("body"),
+            $commentBody,
             $user->getID()
         );
 

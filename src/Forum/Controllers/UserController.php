@@ -117,8 +117,8 @@ class UserController implements ContainerInjectableInterface
         $session = $this->di->get("session");
         $userManager = $this->di->get("userManager");
 
-        $email = $request->getPost("email");
-        $password = $request->getPost("password");
+        $email = \htmlentities($request->getPost("email"));
+        $password = \htmlentities($request->getPost("password"));
 
         $user = $userManager->byEmail($email);
 
@@ -167,8 +167,8 @@ class UserController implements ContainerInjectableInterface
 
         try {
             $userManager->create(
-                $request->getPost("email", ""),
-                $request->getPost("password", "")
+                \htmlentities($request->getPost("email", "")),
+                \htmlentities($request->getPost("password", ""))
             );
             $session->set("email", $user->getEmail());
             return $response->redirect("users");
