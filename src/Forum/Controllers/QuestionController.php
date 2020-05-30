@@ -102,26 +102,6 @@ class QuestionController implements ContainerInjectableInterface
         return $response->redirect("questions/view/" . $questionID);
     }
 
-    public function answerActionGet($id) : object
-    {
-        $page = $this->di->get("page");
-        $session = $this->di->get("session");
-        $response = $this->di->get("response");
-        $questionManager = $this->di->get("questionManager");
-
-        if (!$session->get("loggedIn", false)) {
-            return $response->redirect("users");
-        }
-
-        $page->add("forum/questions/answer", [
-            "question" => $questionManager->byID($id)
-        ]);
-
-        return $page->render([
-            "title" => "Write your answer"
-        ]);
-    }
-
     public function answerActionPost($id) : object
     {
         $request = $this->di->get("request");

@@ -44,7 +44,11 @@ class CommentManager
     public function byContainerID(int $id) : array
     {
         $comments = $this->db->connect()->executeFetchAll("
-            SELECT id, comment_container, author, body
+            SELECT id,
+                   comment_container,
+                   author,
+                   body,
+                   rating
               FROM comments
              WHERE comment_container = ?
             ;
@@ -60,7 +64,12 @@ class CommentManager
     public function byID(int $id) : Question
     {
         $question = $this->db->connect()->executeFetch("
-            SELECT id, title, body, comment_container, author
+            SELECT id,
+                   title,
+                   body,
+                   comment_container,
+                   author,
+                   rating
               FROM questions
              WHERE id = ?
         ", [$id]);
@@ -83,6 +92,24 @@ class CommentManager
         return $this->db->lastInsertId();
     }
 
+    public function voteUp($id)
+    {
+        $this->db->connect()->execute("
+            UPDATE comments
+               SET rating = rating + 1
+             WHERE id = ?
+        ", [$id]);
+    }
+
+    public function voteDown($id)
+    {
+        $this->db->connect()->execute("
+            UPDATE comments
+               SET rating = rating - 1
+             WHERE id = ?
+        ", [$id]);
+    }
+
 
     private function fromDbData(array $data) : Comment
     {
@@ -90,7 +117,8 @@ class CommentManager
             $data["id"],
             $data["comment_container"],
             $this->userManager->byID($data["author"]),
-            $this->textFilter->markdown($data["body"])
+            $this->textFilter->markdown($data["body"]),
+            $data["rating"]
         );
     }
 }

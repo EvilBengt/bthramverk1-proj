@@ -72,7 +72,12 @@ class QuestionManager
     public function all() : array
     {
         $questions = $this->db->connect()->executeFetchAll("
-            SELECT id, title, body, comment_container, author
+            SELECT id,
+                   title,
+                   body,
+                   comment_container,
+                   author,
+                   rating
               FROM questions
             ;
         ");
@@ -87,7 +92,12 @@ class QuestionManager
     public function latest(int $count = 3) : array
     {
         $questions = $this->db->connect()->executeFetchAll("
-            SELECT id, title, body, comment_container, author
+            SELECT id,
+                   title,
+                   body,
+                   comment_container,
+                   author,
+                   rating
               FROM questions
              ORDER BY id DESC
              LIMIT ?
@@ -108,7 +118,8 @@ class QuestionManager
                    q.title,
                    q.body,
                    q.comment_container,
-                   q.author
+                   q.author,
+                   q.rating
               FROM questions AS q
               JOIN questions_has_tags AS qt
                 ON qt.question = q.id
@@ -128,7 +139,12 @@ class QuestionManager
     public function byUserID(int $id) : array
     {
         $questions = $this->db->connect()->executeFetchAll("
-            SELECT id, title, body, comment_container, author
+            SELECT id,
+                   title,
+                   body,
+                   comment_container,
+                   author,
+                   rating
               FROM questions
              WHERE author = ?
         ", [$id]);
@@ -143,7 +159,12 @@ class QuestionManager
     public function byID(int $id) : Question
     {
         $question = $this->db->connect()->executeFetch("
-            SELECT id, title, body, comment_container, author
+            SELECT id,
+                   title,
+                   body,
+                   comment_container,
+                   author,
+                   rating
               FROM questions
              WHERE id = ?
         ", [$id]);
@@ -179,6 +200,24 @@ class QuestionManager
         return $id;
     }
 
+    public function voteUp($id)
+    {
+        $this->db->connect()->execute("
+            UPDATE questions
+               SET rating = rating + 1
+             WHERE id = ?
+        ", [$id]);
+    }
+
+    public function voteDown($id)
+    {
+        $this->db->connect()->execute("
+            UPDATE questions
+               SET rating = rating - 1
+             WHERE id = ?
+        ", [$id]);
+    }
+
 
     private function fromDbData(array $data) : Question
     {
@@ -190,7 +229,8 @@ class QuestionManager
             $data["comment_container"],
             $this->userManager->byID($data["author"]),
             $this->answerManager->byQuestionID($data["id"]),
-            $this->tagManager->byQuestionID($data["id"])
+            $this->tagManager->byQuestionID($data["id"]),
+            $data["rating"]
         );
     }
 }

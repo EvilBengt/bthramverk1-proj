@@ -11,9 +11,7 @@ namespace Anax\View;
 <ul>
     <?php foreach ($questions as $q) { ?>
     <li>
-        <a href="<?= url("questions/view/" . $q->getID()) ?>">
-            <span class="li-title"><?= $q->getTitle() ?></span>
-        </a>
+        <a href="<?= url("questions/view/" . $q->getID()) ?>">(<?= $q->getRating() ?>) <?= $q->getTitle() ?></a>
     </li>
     <?php }; ?>
 </ul>

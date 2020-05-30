@@ -8,14 +8,16 @@ class Comment
     private $commentContainer;
     private $author;
     private $body;
+    private $rating;
 
 
-    public function __construct($id, $commentContainer, $author, $body)
+    public function __construct($id, $commentContainer, $author, $body, $rating)
     {
         $this->id = $id;
         $this->commentContainer = $commentContainer;
         $this->author = $author;
         $this->body = $body;
+        $this->rating = $rating;
     }
 
 
@@ -37,5 +39,10 @@ class Comment
     public function getBody() : string
     {
         return $this->body;
+    }
+
+    public function getRating() : int
+    {
+        return $this->rating;
     }
 }

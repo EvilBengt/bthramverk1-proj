@@ -55,7 +55,12 @@ class AnswerManager
     public function byQuestionID(int $id) : array
     {
         $answers = $this->db->connect()->executeFetchAll("
-            SELECT id, question, body, comment_container, author
+            SELECT id,
+                   question,
+                   body,
+                   comment_container,
+                   author,
+                   rating
               FROM answers
              WHERE question = ?
             ;
@@ -71,7 +76,12 @@ class AnswerManager
     public function byID(int $id) : Answer
     {
         $answer = $this->db->connect()->executeFetch("
-            SELECT id, question, body, comment_container, author
+            SELECT id,
+                   question,
+                   body,
+                   comment_container,
+                   author,
+                   rating
               FROM answers
              WHERE id = ?
         ", [$id]);
@@ -82,7 +92,12 @@ class AnswerManager
     public function byUserID(int $id) : array
     {
         $answers = $this->db->connect()->executeFetchAll("
-            SELECT id, question, body, comment_container, author
+            SELECT id,
+                   question,
+                   body,
+                   comment_container,
+                   author,
+                   rating
               FROM answers
              WHERE author = ?
         ", [$id]);
@@ -118,6 +133,26 @@ class AnswerManager
         return $this->db->lastInsertId();
     }
 
+    public function voteUp($id)
+    {
+        $this->db->connect()->execute("
+            UPDATE answers
+               SET rating = rating + 1
+             WHERE id = $id
+            ;
+        ");
+    }
+
+    public function voteDown($id)
+    {
+        $this->db->connect()->execute("
+            UPDATE answers
+               SET rating = rating - 1
+             WHERE id = $id
+            ;
+        ");
+    }
+
 
     private function fromDbData(array $data) : Answer
     {
@@ -127,7 +162,8 @@ class AnswerManager
             $this->textFilter->markdown($data["body"]),
             $this->commentManager->byContainerID($data["comment_container"]),
             $data["comment_container"],
-            $this->userManager->byID($data["author"])
+            $this->userManager->byID($data["author"]),
+            $data["rating"]
         );
     }
 }

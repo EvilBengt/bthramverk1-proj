@@ -20,9 +20,14 @@ return [
             "handler" => "\EVB\Forum\Controllers\CommentController",
         ],
         [
+            "info" => "Voting actions.",
+            "mount" => "vote",
+            "handler" => "\EVB\Forum\Controllers\VoteController"
+        ],
+        [
             "info" => "Home page.",
             "mount" => "",
             "handler" => "\EVB\Forum\Controllers\HomeController"
-        ]
+        ],
     ]
 ];

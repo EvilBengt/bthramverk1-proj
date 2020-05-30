@@ -12,9 +12,10 @@ class Question
     private $author;
     private $answers;
     private $tags;
+    private $rating;
 
 
-    public function __construct($id, $title, $body, $comments, $commentContainerID, $author, $answers, $tags)
+    public function __construct($id, $title, $body, $comments, $commentContainerID, $author, $answers, $tags, $rating)
     {
         $this->id = $id;
         $this->title = $title;
@@ -24,6 +25,7 @@ class Question
         $this->author = $author;
         $this->answers = $answers;
         $this->tags = $tags;
+        $this->rating = $rating;
     }
 
 
@@ -65,5 +67,10 @@ class Question
     public function getTags() : array
     {
         return $this->tags;
+    }
+
+    public function getRating() : int
+    {
+        return $this->rating;
     }
 }

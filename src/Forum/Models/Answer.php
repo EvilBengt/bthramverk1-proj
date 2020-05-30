@@ -10,9 +10,10 @@ class Answer
     private $comments;
     private $commentContainerID;
     private $author;
+    private $rating;
 
 
-    public function __construct($id, $question, $body, $comments, $commentContainerID, $author)
+    public function __construct($id, $question, $body, $comments, $commentContainerID, $author, $rating)
     {
         $this->id = $id;
         $this->question = $question;
@@ -20,6 +21,7 @@ class Answer
         $this->comments = $comments;
         $this->commentContainerID = $commentContainerID;
         $this->author = $author;
+        $this->rating = $rating;
     }
 
 
@@ -51,5 +53,10 @@ class Answer
     public function getAuthor() : User
     {
         return $this->author;
+    }
+
+    public function getRating() : int
+    {
+        return $this->rating;
     }
 }

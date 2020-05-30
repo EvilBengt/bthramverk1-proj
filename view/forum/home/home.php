@@ -9,7 +9,7 @@ namespace Anax\View;
 <h2>Latest questions</h2>
 <ul>
     <?php foreach ($latestQuestions as $q) { ?>
-    <li><a href="<?= url("questions/view/" . $q->getID()) ?>"><?= $q->getTitle() ?></a></li>
+    <li><a href="<?= url("questions/view/" . $q->getID()) ?>">(<?= $q->getRating() ?>) <?= $q->getTitle() ?></a></li>
     <?php }; ?>
 </ul>
 
