@@ -19,7 +19,7 @@ class QuestionController implements ContainerInjectableInterface
 
         $tag = $request->getGet("tag");
 
-        $questions;
+        $questions = [];
         if ($tag != null) {
             $questions = $questionManager->withTag($tag);
         } else {
@@ -39,7 +39,6 @@ class QuestionController implements ContainerInjectableInterface
     public function viewAction($id) : object
     {
         $page = $this->di->get("page");
-        $textfilter = $this->di->get("textfilter");
         $questionManager = $this->di->get("questionManager");
         $session = $this->di->get("session");
 
@@ -114,7 +113,6 @@ class QuestionController implements ContainerInjectableInterface
         $request = $this->di->get("request");
         $response = $this->di->get("response");
         $session = $this->di->get("session");
-        $questionManager = $this->di->get("questionManager");
         $userManager = $this->di->get("userManager");
         $answerManager = $this->di->get("answerManager");
 
