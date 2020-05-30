@@ -10,9 +10,9 @@
     padding-left: 1rem;
 }
 
-.answer-body {
+.answer-body,
+.question-body {
     border-bottom: 2px solid gray;
-    clear: both;
 }
 
 .comment {
