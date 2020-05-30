@@ -65,7 +65,7 @@ namespace Anax\View;
 </form>
 <ul class="answers">
     <?php foreach ($question->getAnswers() as $a) { ?>
-    <li class="answer" id="a<?= $a->getID() ?>">
+    <li class="answer <?= $a->getAccepted() ? "accepted-answer" : "" ?>" id="a<?= $a->getID() ?>">
         <h3>
             <em>Answer by</em>
             <a class="author answer-author" href="<?= url("users/view/" . $a->getAuthor()->getID()) ?>">
@@ -77,6 +77,11 @@ namespace Anax\View;
         <form class="right" action="<?= url("vote/answer/" . $a->getID()) ?>" method="POST">
             <button type="submit" name="vote" value="up">+</button>
             <button type="submit" name="vote" value="down">-</button>
+        </form>
+        <form method="POST" action="<?= url("questions/accept-answer/") ?>">
+            <button type="submit" name="answer" value="<?= $a->getID() ?>" <?= !$isMyQuestion || $a->getAccepted() ? "disabled" : "" ?>>
+                <?= $a->getAccepted() ? "Accepted" : "Accept" ?>
+            </button>
         </form>
         <div class="answer-body"><?= $a->getBody() ?></div>
         <ul class="comments">

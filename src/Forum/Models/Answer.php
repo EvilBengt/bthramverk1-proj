@@ -11,9 +11,10 @@ class Answer
     private $commentContainerID;
     private $author;
     private $rating;
+    private $accepted;
 
 
-    public function __construct($id, $question, $body, $comments, $commentContainerID, $author, $rating)
+    public function __construct($id, $question, $body, $comments, $commentContainerID, $author, $rating, $accepted)
     {
         $this->id = $id;
         $this->question = $question;
@@ -22,6 +23,7 @@ class Answer
         $this->commentContainerID = $commentContainerID;
         $this->author = $author;
         $this->rating = $rating;
+        $this->accepted = $accepted;
     }
 
 
@@ -58,5 +60,10 @@ class Answer
     public function getRating() : int
     {
         return $this->rating;
+    }
+
+    public function getAccepted() : bool
+    {
+        return $this->accepted;
     }
 }

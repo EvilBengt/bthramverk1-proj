@@ -47,7 +47,8 @@ class QuestionController implements ContainerInjectableInterface
         $question = $questionManager->byID($id);
 
         $page->add("forum/questions/view", [
-            "question" => $question
+            "question" => $question,
+            "isMyQuestion" => $session->get("loggedIn", false) && $session->get("userID") == $question->getAuthor()->getID()
         ]);
 
         return $page->render([
@@ -131,5 +132,23 @@ class QuestionController implements ContainerInjectableInterface
         );
 
         return $response->redirect("questions/view/" . $id . "#a" . $answerID);
+    }
+
+    public function acceptAnswerActionPost() : object
+    {
+        $request = $this->di->get("request");
+        $response = $this->di->get("response");
+        $session = $this->di->get("session");
+        $answerManager = $this->di->get("answerManager");
+        $questionManager = $this->di->get("questionManager");
+
+        $answer = $answerManager->byID($request->getPost("answer"));
+        $question = $questionManager->byID($answer->getQuestionID());
+
+        if ($session->get("loggedIn", false) && $session->get("userID") == $question->getAuthor()->getID()) {
+            $answerManager->accept($answer->getID());
+        }
+
+        return $response->redirect("questions/view/" . $question->getID() . "#a" . $answer->getID());
     }
 }

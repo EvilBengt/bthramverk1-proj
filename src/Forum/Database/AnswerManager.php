@@ -60,7 +60,8 @@ class AnswerManager
                    body,
                    comment_container,
                    author,
-                   rating
+                   rating,
+                   accepted
               FROM answers
              WHERE question = ?
             ;
@@ -81,7 +82,8 @@ class AnswerManager
                    body,
                    comment_container,
                    author,
-                   rating
+                   rating,
+                   accepted
               FROM answers
              WHERE id = ?
         ", [$id]);
@@ -97,7 +99,8 @@ class AnswerManager
                    body,
                    comment_container,
                    author,
-                   rating
+                   rating,
+                   accepted
               FROM answers
              WHERE author = ?
         ", [$id]);
@@ -153,6 +156,15 @@ class AnswerManager
         ");
     }
 
+    public function accept($id)
+    {
+        $this->db->connect()->execute("
+            UPDATE answers
+               SET accepted = 1
+             WHERE id = ?
+        ", [$id]);
+    }
+
 
     private function fromDbData(array $data) : Answer
     {
@@ -163,7 +175,8 @@ class AnswerManager
             $this->commentManager->byContainerID($data["comment_container"]),
             $data["comment_container"],
             $this->userManager->byID($data["author"]),
-            $data["rating"]
+            $data["rating"],
+            $data["accepted"] ? true : false
         );
     }
 }
