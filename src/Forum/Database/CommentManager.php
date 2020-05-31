@@ -61,20 +61,20 @@ class CommentManager
         return $comments;
     }
 
-    public function byID(int $id) : Question
+    public function byID(int $id) : Comment
     {
-        $question = $this->db->connect()->executeFetch("
+        $comment = $this->db->connect()->executeFetch("
             SELECT id,
-                   title,
-                   body,
                    comment_container,
                    author,
+                   body,
                    rating
-              FROM questions
+              FROM comments
              WHERE id = ?
+            ;
         ", [$id]);
 
-        return $this->fromDbData($question);
+        return $this->fromDbData($comment);
     }
 
     public function create(int $containerID, string $body, int $author) : int

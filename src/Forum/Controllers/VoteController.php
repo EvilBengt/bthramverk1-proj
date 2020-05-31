@@ -16,8 +16,18 @@ class VoteController implements ContainerInjectableInterface
         $request = $this->di->get("request");
         $response = $this->di->get("response");
         $questionManager = $this->di->get("questionManager");
+        $session = $this->di->get("session");
+
+        if (!$session->get("loggedIn", false)) {
+            return $response->redirect("users/login");
+        }
+
+        if ($session->get("userID") == $questionManager->byID($id)->getAuthor()->getID()) {
+            return $response->redirect("questions/view/" . $id);
+        }
 
         $vote = \htmlentities($request->getPost("vote"));
+
 
         if ($vote == "up") {
             $questionManager->voteUp($id);
@@ -33,7 +43,15 @@ class VoteController implements ContainerInjectableInterface
         $request = $this->di->get("request");
         $response = $this->di->get("response");
         $answerManager = $this->di->get("answerManager");
-        $questionManager = $this->di->get("questionManager");
+        $session = $this->di->get("session");
+
+        if (!$session->get("loggedIn", false)) {
+            return $response->redirect("users/login");
+        }
+
+        if ($session->get("userID") == $answerManager->byID($id)->getAuthor()->getID()) {
+            return $response->redirect("questions/view/" . $questionID . "#a" . $id);
+        }
 
         $vote = \htmlentities($request->getPost("vote"));
 
@@ -54,6 +72,14 @@ class VoteController implements ContainerInjectableInterface
         $response = $this->di->get("response");
         $commentManager = $this->di->get("commentManager");
         $session = $this->di->get("session");
+
+        if (!$session->get("loggedIn", false)) {
+            return $response->redirect("users/login");
+        }
+
+        if ($session->get("userID") == $commentManager->byID($id)->getAuthor()->getID()) {
+            return $response->redirect("questions/view/" . $session->get("lastViewedQuestion") . "#c" . $id);
+        }
 
         $vote = \htmlentities($request->getPost("vote"));
 

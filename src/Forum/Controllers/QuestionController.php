@@ -69,7 +69,8 @@ class QuestionController implements ContainerInjectableInterface
         $page->add("forum/questions/view", [
             "question" => $question,
             "isMyQuestion" => $session->get("loggedIn", false) && $session->get("userID") == $question->getAuthor()->getID(),
-            "sortByRating" => $sortByRating
+            "sortByRating" => $sortByRating,
+            "myID" => $session->get("userID")
         ]);
 
         return $page->render([

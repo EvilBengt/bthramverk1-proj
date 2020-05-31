@@ -17,8 +17,8 @@ namespace Anax\View;
 </h1>
 
 <form class="right" action="<?= url("vote/question/" . $question->getID()) ?>" method="POST">
-    <button type="submit" name="vote" value="up">+</button>
-    <button type="submit" name="vote" value="down">-</button>
+    <button type="submit" name="vote" value="up" <?= $isMyQuestion ? "disabled" : "" ?>>+</button>
+    <button type="submit" name="vote" value="down" <?= $isMyQuestion ? "disabled" : "" ?>>-</button>
 </form>
 
 <ul class="question-tag-list">
@@ -46,8 +46,8 @@ namespace Anax\View;
             <strong class="right">[<?= $c->getRating() ?>]</strong>
         </div>
         <form class="right" action="<?= url("vote/comment/" . $c->getID()) ?>" method="POST">
-            <button type="submit" name="vote" value="up">+</button>
-            <button type="submit" name="vote" value="down">-</button>
+            <button type="submit" name="vote" value="up" <?= $c->getAuthor()->getID() == $myID ? "disabled" : "" ?>>+</button>
+            <button type="submit" name="vote" value="down" <?= $c->getAuthor()->getID() == $myID ? "disabled" : "" ?>>-</button>
         </form>
         <p class="comment-body"><?= $c->getBody() ?></p>
     </li>
@@ -90,8 +90,8 @@ namespace Anax\View;
             <span class="answer-timestamp"><?= $a->getTimestamp() ?></span>
         </h3>
         <form class="right" action="<?= url("vote/answer/" . $a->getID()) ?>" method="POST">
-            <button type="submit" name="vote" value="up">+</button>
-            <button type="submit" name="vote" value="down">-</button>
+            <button type="submit" name="vote" value="up" <?= $a->getAuthor()->getID() == $myID ? "disabled" : "" ?>>+</button>
+            <button type="submit" name="vote" value="down" <?= $a->getAuthor()->getID() == $myID ? "disabled" : "" ?>>-</button>
         </form>
         <form method="POST" action="<?= url("questions/accept-answer/") ?>">
             <button type="submit" name="answer" value="<?= $a->getID() ?>" <?= !$isMyQuestion || $a->getAccepted() ? "disabled" : "" ?>>
@@ -110,8 +110,8 @@ namespace Anax\View;
                     <strong class="right">[<?= $c->getRating() ?>]</strong>
                 </div>
                 <form class="right" action="<?= url("vote/comment/" . $c->getID()) ?>" method="POST">
-                    <button type="submit" name="vote" value="up">+</button>
-                    <button type="submit" name="vote" value="down">-</button>
+                    <button type="submit" name="vote" value="up" <?= $c->getAuthor()->getID() == $myID ? "disabled" : "" ?>>+</button>
+                    <button type="submit" name="vote" value="down" <?= $c->getAuthor()->getID() == $myID ? "disabled" : "" ?>>-</button>
                 </form>
                 <div class="comment-body"><?= $c->getBody() ?></div>
             </li>
