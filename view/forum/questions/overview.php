@@ -4,14 +4,18 @@ namespace Anax\View;
 
 ?>
 
-<h1>Question overview</h1>
+<h1>Questions</h1>
 
 <a class="call-to-action" href="questions/ask">Ask a question!</a>
 
-<ul>
+<ul class="question-list">
     <?php foreach ($questions as $q) { ?>
-    <li>
-        <a href="<?= url("questions/view/" . $q->getID()) ?>">(<?= $q->getRating() ?>) <?= $q->getTitle() ?></a>
+    <li class="question-list-item">
+        <h2>
+            <a href="<?= url("questions/view/" . $q->getID()) ?>"><?= $q->getTitle() ?></a>
+            <strong class="right">[<?= $q->getRating() ?>]</strong>
+        </h2>
+        <?= \count($q->getAnswers()) . (\count($q->getAnswers()) == 1 ? " answer" : " answers") ?>
     </li>
     <?php }; ?>
 </ul>
