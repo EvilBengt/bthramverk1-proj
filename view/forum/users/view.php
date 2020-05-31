@@ -40,6 +40,10 @@ namespace Anax\View;
     <?php }; ?>
 </ul>
 
+<h2>Number of votes cast</h2>
+
+<p><?= $user->getVotes() ?></p>
+
 <?php if ($showEditLink) { ?>
 <h2><a href="<?= url("users/me") ?>">Edit your information</a></h2>
 <?php }; ?>

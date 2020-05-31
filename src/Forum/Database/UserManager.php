@@ -37,7 +37,8 @@ class UserManager
                    password_hash,
                    bio,
                    reputation,
-                   id
+                   id,
+                   votes
               FROM users
              WHERE email = ?
             ;
@@ -54,7 +55,8 @@ class UserManager
                    password_hash,
                    bio,
                    reputation,
-                   id
+                   id,
+                   votes
               FROM users
              ORDER BY reputation DESC
              LIMIT ?
@@ -76,7 +78,8 @@ class UserManager
                    password_hash,
                    bio,
                    reputation,
-                   id
+                   id,
+                   votes
               FROM users
              WHERE id = ?
             ;
@@ -130,6 +133,15 @@ class UserManager
         }
     }
 
+    public function registerVote(int $id)
+    {
+        $this->db->connect()->execute("
+            UPDATE users
+               SET votes = votes + 1
+             WHERE id = ?
+        ", [$id]);
+    }
+
 
     private function fromDbData(array $data) : User
     {
@@ -140,7 +152,8 @@ class UserManager
             $data["password_hash"],
             $data["bio"],
             $data["reputation"],
-            $data["id"]
+            $data["id"],
+            $data["votes"]
         );
     }
 }

@@ -17,6 +17,7 @@ class VoteController implements ContainerInjectableInterface
         $response = $this->di->get("response");
         $questionManager = $this->di->get("questionManager");
         $session = $this->di->get("session");
+        $userManager = $this->di->get("userManager");
 
         if (!$session->get("loggedIn", false)) {
             return $response->redirect("users/login");
@@ -35,6 +36,8 @@ class VoteController implements ContainerInjectableInterface
             $questionManager->voteDown($id);
         }
 
+        $userManager->registerVote($session->get("userID"));
+
         return $response->redirect("questions/view/" . $id);
     }
 
@@ -44,6 +47,7 @@ class VoteController implements ContainerInjectableInterface
         $response = $this->di->get("response");
         $answerManager = $this->di->get("answerManager");
         $session = $this->di->get("session");
+        $userManager = $this->di->get("userManager");
 
         if (!$session->get("loggedIn", false)) {
             return $response->redirect("users/login");
@@ -63,6 +67,8 @@ class VoteController implements ContainerInjectableInterface
 
         $questionID = $answerManager->byID($id)->getQuestionID();
 
+        $userManager->registerVote($session->get("userID"));
+
         return $response->redirect("questions/view/" . $questionID . "#a" . $id);
     }
 
@@ -72,6 +78,7 @@ class VoteController implements ContainerInjectableInterface
         $response = $this->di->get("response");
         $commentManager = $this->di->get("commentManager");
         $session = $this->di->get("session");
+        $userManager = $this->di->get("userManager");
 
         if (!$session->get("loggedIn", false)) {
             return $response->redirect("users/login");
@@ -88,6 +95,8 @@ class VoteController implements ContainerInjectableInterface
         } else if ($vote == "down") {
             $commentManager->voteDown($id);
         }
+
+        $userManager->registerVote($session->get("userID"));
 
         return $response->redirect("questions/view/" . $session->get("lastViewedQuestion") . "#c" . $id);
     }

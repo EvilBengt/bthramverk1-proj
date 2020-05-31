@@ -19,8 +19,9 @@ class User
     private $bio;
     private $rep;
     private $id;
+    private $votes;
 
-    public function __construct(TextFilter $textFilter, $email, $displayName, $passwordHash, $bio, $rep, $id)
+    public function __construct(TextFilter $textFilter, $email, $displayName, $passwordHash, $bio, $rep, $id, $votes)
     {
         $this->textFilter = $textFilter;
         $this->email = $email;
@@ -29,6 +30,7 @@ class User
         $this->bio = $bio;
         $this->rep = $rep;
         $this->id = $id;
+        $this->votes = $votes;
     }
 
     public function getEmail() : string
@@ -70,6 +72,11 @@ class User
     public function getID() : int
     {
         return $this->id;
+    }
+
+    public function getVotes() : int
+    {
+        return $this->votes;
     }
 
     public function getImageLink(int $size = 40) : string
