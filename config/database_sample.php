@@ -1,24 +1,15 @@
 <?php
 /**
- * Config file for Database.
- *
- * Example for MySQL.
- *  "dsn" => "mysql:host=localhost;dbname=test;",
- *  "username" => "test",
- *  "password" => "test",
- *  "driver_options"  => [
- *      \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
- *  ],
- *
- * Example for SQLite.
- *  "dsn" => "sqlite:memory::",
+ * Sample config file for Database.
  *
  */
+
+// Config for if the site is deployed on BTH's student server.
 if ($_SERVER["SERVER_NAME"] === "www.student.bth.se") {
     return [
-        "dsn"             => "mysql:host=blu-ray.student.bth.se;dbname=mos;",
-        "username"        => "mos",
-        "password"        => "hemligt",
+        "dsn"             => "mysql:host=blu-ray.student.bth.se;dbname=dbname;",
+        "username"        => "user",
+        "password"        => "pass",
         "driver_options"  => [
             \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
         ],
@@ -35,10 +26,11 @@ if ($_SERVER["SERVER_NAME"] === "www.student.bth.se") {
     ];
 }
 
+// Config for development or other
 return [
     "dsn"             => "mysql:host=127.0.0.1;dbname=ramverk1_proj;",
-    "username"        => "dbwebb",
-    "password"        => "admin",
+    "username"        => "user",
+    "password"        => "pass",
     "driver_options"  => [
         \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
     ],
