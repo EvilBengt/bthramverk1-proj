@@ -138,6 +138,13 @@ class AnswerManager
             $author
         ]);
 
+        $this->db->connect()->execute("
+            UPDATE users
+               SET reputation = reputation + 15
+             WHERE id = ?
+            ;
+        ", [$author]);
+
         return $this->db->lastInsertId();
     }
 
@@ -149,6 +156,15 @@ class AnswerManager
              WHERE id = $id
             ;
         ");
+
+        $authorID = $this->byID($id)->getAuthor()->getID();
+
+        $this->db->connect()->execute("
+            UPDATE users
+               SET reputation = reputation + 2
+             WHERE id = ?
+            ;
+        ", [$authorID]);
     }
 
     public function voteDown($id)
@@ -159,6 +175,15 @@ class AnswerManager
              WHERE id = $id
             ;
         ");
+
+        $authorID = $this->byID($id)->getAuthor()->getID();
+
+        $this->db->connect()->execute("
+            UPDATE users
+               SET reputation = reputation - 2
+             WHERE id = ?
+            ;
+        ", [$authorID]);
     }
 
     public function accept($id)

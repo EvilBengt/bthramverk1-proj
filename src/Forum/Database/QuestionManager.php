@@ -193,6 +193,12 @@ class QuestionManager
             $author
         ]);
 
+        $this->db->connect()->execute("
+            UPDATE users
+              SET reputation = reputation + 10
+             WHERE id = ?
+        ", [$author]);
+
         $id = $this->db->lastInsertId();
 
         $this->tagManager->attach($id, $tags);
@@ -207,6 +213,14 @@ class QuestionManager
                SET rating = rating + 1
              WHERE id = ?
         ", [$id]);
+
+        $authorID = $this->byID($id)->getAuthor()->getID();
+
+        $this->db->connect()->execute("
+            UPDATE users
+               SET reputation = reputation + 2
+             WHERE id = ?
+        ", [$authorID]);
     }
 
     public function voteDown($id)
@@ -216,6 +230,14 @@ class QuestionManager
                SET rating = rating - 1
              WHERE id = ?
         ", [$id]);
+
+        $authorID = $this->byID($id)->getAuthor()->getID();
+
+        $this->db->connect()->execute("
+            UPDATE users
+               SET reputation = reputation - 2
+             WHERE id = ?
+        ", [$authorID]);
     }
 
 

@@ -76,12 +76,18 @@ class TagManager
     {
         foreach ($tags as $t) {
             $this->db->connect()->execute("
-            INSERT INTO questions_has_tags(question, tag)
-            VALUES (?, ?)
+                INSERT INTO questions_has_tags(question, tag)
+                VALUES (?, ?)
             ;
             ", [
                 $questionID, $t
             ]);
+
+            $this->db->connect()->execute("
+                UPDATE tags
+                   SET frequency = frequency + 1
+                 WHERE id = ?
+            ", [$t]);
         }
     }
 

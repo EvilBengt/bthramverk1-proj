@@ -135,6 +135,12 @@ class CommentManager
             $body
         ]);
 
+        $this->db->connect()->execute("
+            UPDATE users
+               SET reputation = reputation + 3
+             WHERE id = ?
+        ", [$author]);
+
         return $this->db->lastInsertId();
     }
 
@@ -145,6 +151,14 @@ class CommentManager
                SET rating = rating + 1
              WHERE id = ?
         ", [$id]);
+
+        $authorID = $this->byID($id)->getAuthor()->getID();
+
+        $this->db->connect()->execute("
+            UPDATE users
+               SET reputation = reputation + 1
+             WHERE id = ?
+        ", [$authorID]);
     }
 
     public function voteDown($id)
@@ -154,6 +168,14 @@ class CommentManager
                SET rating = rating - 1
              WHERE id = ?
         ", [$id]);
+
+        $authorID = $this->byID($id)->getAuthor()->getID();
+
+        $this->db->connect()->execute("
+            UPDATE users
+               SET reputation = reputation - 1
+             WHERE id = ?
+        ", [$authorID]);
     }
 
 
