@@ -56,3 +56,9 @@
     border-left: 3px solid gray;
     padding-left: 1rem;
 }
+
+.answer-timestamp {
+    float: right;
+    font-style: italic;
+    margin-right: 4rem;
+}

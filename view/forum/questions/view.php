@@ -58,7 +58,21 @@ namespace Anax\View;
     <button type="submit">Submit</button>
 </form>
 
-<h2>Answers</h2>
+<h2 id="answers-heading">
+    Answers
+    <span class="right">
+        Sort by
+        <?php if ($sortByRating) { ?>
+        <a href="?sort=date#answers-heading">date</a>
+        |
+        rating
+        <?php } else { ?>
+        date
+        |
+        <a href="?sort=rating#answers-heading">rating</a>
+        <?php }; ?>
+    </span>
+</h2>
 <form method="POST" action="<?= url("questions/answer/" . $question->getID()) ?>">
     <textarea name="body" placeholder="Your answer" required></textarea>
     <button type="submit">Submit</button>
@@ -73,6 +87,7 @@ namespace Anax\View;
                 <span class="author-name"><?= $a->getAuthor()->getName() ?></span>
             </a>
             <strong class="right">[<?= $a->getRating() ?>]</strong>
+            <span class="answer-timestamp"><?= $a->getTimestamp() ?></span>
         </h3>
         <form class="right" action="<?= url("vote/answer/" . $a->getID()) ?>" method="POST">
             <button type="submit" name="vote" value="up">+</button>

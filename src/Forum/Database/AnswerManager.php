@@ -61,9 +61,11 @@ class AnswerManager
                    comment_container,
                    author,
                    rating,
-                   accepted
+                   accepted,
+                   timestamp
               FROM answers
              WHERE question = ?
+             ORDER BY timestamp ASC
             ;
         ", [$id]);
 
@@ -83,7 +85,8 @@ class AnswerManager
                    comment_container,
                    author,
                    rating,
-                   accepted
+                   accepted,
+                   timestamp
               FROM answers
              WHERE id = ?
         ", [$id]);
@@ -100,9 +103,11 @@ class AnswerManager
                    comment_container,
                    author,
                    rating,
-                   accepted
+                   accepted,
+                   timestamp
               FROM answers
              WHERE author = ?
+             ORDER BY timestamp DESC
         ", [$id]);
 
         foreach ($answers as $key => $a) {
@@ -176,7 +181,8 @@ class AnswerManager
             $data["comment_container"],
             $this->userManager->byID($data["author"]),
             $data["rating"],
-            $data["accepted"] ? true : false
+            $data["accepted"] ? true : false,
+            $data["timestamp"]
         );
     }
 }

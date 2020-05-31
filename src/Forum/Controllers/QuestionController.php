@@ -38,6 +38,7 @@ class QuestionController implements ContainerInjectableInterface
 
     public function viewAction($id) : object
     {
+        $request = $this->di->get("request");
         $page = $this->di->get("page");
         $questionManager = $this->di->get("questionManager");
         $session = $this->di->get("session");
@@ -46,9 +47,29 @@ class QuestionController implements ContainerInjectableInterface
 
         $question = $questionManager->byID($id);
 
+        $sortByRating = false;
+        switch ($request->getGet("sort")) {
+            case "rating":
+                $session->set("answerSortOrder", "rating");
+                $sortByRating = true;
+                break;
+
+            case "date":
+                $session->set("answerSortOrder", "date");
+
+            default:
+                $sortByRating = $session->get("answerSortOrder", "date") == "rating";
+                break;
+        }
+
+        if ($sortByRating) {
+            $question->sortAnswersByRating();
+        }
+
         $page->add("forum/questions/view", [
             "question" => $question,
-            "isMyQuestion" => $session->get("loggedIn", false) && $session->get("userID") == $question->getAuthor()->getID()
+            "isMyQuestion" => $session->get("loggedIn", false) && $session->get("userID") == $question->getAuthor()->getID(),
+            "sortByRating" => $sortByRating
         ]);
 
         return $page->render([

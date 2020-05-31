@@ -73,4 +73,9 @@ class Question
     {
         return $this->rating;
     }
+
+    public function sortAnswersByRating()
+    {
+        \usort($this->answers, function($a, $b) { return $a->getRating() < $b->getRating(); });
+    }
 }

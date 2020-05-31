@@ -12,9 +12,10 @@ class Answer
     private $author;
     private $rating;
     private $accepted;
+    private $timestamp;
 
 
-    public function __construct($id, $question, $body, $comments, $commentContainerID, $author, $rating, $accepted)
+    public function __construct($id, $question, $body, $comments, $commentContainerID, $author, $rating, $accepted, $timestamp)
     {
         $this->id = $id;
         $this->question = $question;
@@ -24,6 +25,7 @@ class Answer
         $this->author = $author;
         $this->rating = $rating;
         $this->accepted = $accepted;
+        $this->timestamp = $timestamp;
     }
 
 
@@ -65,5 +67,10 @@ class Answer
     public function getAccepted() : bool
     {
         return $this->accepted;
+    }
+
+    public function getTimestamp() : string
+    {
+        return $this->timestamp;
     }
 }
