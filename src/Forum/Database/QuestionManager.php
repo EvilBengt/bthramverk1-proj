@@ -193,15 +193,15 @@ class QuestionManager
             $author
         ]);
 
+        $id = $this->db->lastInsertId();
+
+        $this->tagManager->attach($id, $tags);
+
         $this->db->connect()->execute("
             UPDATE users
               SET reputation = reputation + 10
              WHERE id = ?
         ", [$author]);
-
-        $id = $this->db->lastInsertId();
-
-        $this->tagManager->attach($id, $tags);
 
         return $id;
     }
