@@ -5,6 +5,7 @@ namespace Anax\View;
 ?>
 
 <h1>
+    <img width="40" height="40" src="<?= $user->getImageLink() ?>">
     <?= $user->getName() ?>
     <span class="right">
         <strong title="Reputation">[<?= $user->getRep() ?>]</strong>
