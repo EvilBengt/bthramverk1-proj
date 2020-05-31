@@ -184,15 +184,26 @@ class UserController implements ContainerInjectableInterface
         $userManager = $this->di->get("userManager");
         $questionManager = $this->di->get("questionManager");
         $answerManager = $this->di->get("answerManager");
+        $commentManager = $this->di->get("commentManager");
         $session = $this->di->get("session");
 
         $user = $userManager->byID($id);
         $questions = $questionManager->byUserID($id);
         $answers = $answerManager->byUserID($id);
+        $comments = $commentManager->byUserID($id);
 
         $answeredQuestions = [];
         foreach ($answers as $a) {
             $answeredQuestions[$a->getQuestionID()] = $questionManager->byID($a->getQuestionID());
+        }
+
+        $commentedQuestions = [];
+        foreach ($comments as $c) {
+            $questionID = $commentManager->getQuestionID($c->getID());
+            $commentedQuestions[] = [
+                "question" => $questionManager->byID($questionID),
+                "comment" => $c
+            ];
         }
 
         $page->add("forum/users/view", [
@@ -200,6 +211,7 @@ class UserController implements ContainerInjectableInterface
             "asked" => $questions,
             "answers" => $answers,
             "answered" => $answeredQuestions,
+            "commented" => $commentedQuestions,
             "showEditLink" => $user->getID() == $session->get("userID", -1)
         ]);
 

@@ -32,6 +32,14 @@ namespace Anax\View;
     <?php }; ?>
 </ul>
 
+<h2>Commented questions</h2>
+
+<ul>
+    <?php foreach ($commented as $value) { ?>
+    <li><a href="<?= url("questions/view/" . $value["question"]->getID()) . "#c" . $value["comment"]->getID() ?>"><?= $value["question"]->getTitle() ?></a></li>
+    <?php }; ?>
+</ul>
+
 <?php if ($showEditLink) { ?>
 <h2><a href="<?= url("users/me") ?>">Edit your information</a></h2>
 <?php }; ?>

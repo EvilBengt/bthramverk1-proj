@@ -77,6 +77,52 @@ class CommentManager
         return $this->fromDbData($comment);
     }
 
+    public function byUserID(int $id) : array
+    {
+        $comments = $this->db->connect()->executeFetchAll("
+            SELECT id,
+                   comment_container,
+                   author,
+                   body,
+                   rating
+              FROM comments
+             WHERE author = ?
+            ;
+        ", [$id]);
+
+        foreach ($comments as $key => $c) {
+            $comments[$key] = $this->fromDbData($c);
+        }
+
+        return $comments;
+    }
+
+    public function getQuestionID(int $id) : int
+    {
+        $comment = $this->byID($id);
+
+        $question = $this->db->connect()->executeFetch("
+            SELECT id
+              FROM questions
+             WHERE comment_container = ?
+            ;
+        ", [$comment->getCommentContainer()]);
+
+        if ($question != null) {
+            return $question["id"];
+        }
+
+        $answer = $this->db->connect()->executeFetch("
+            SELECT id
+                   question
+              FROM answers
+             WHERE comment_container = ?
+            ;
+        ", [$comment->getCommentContainer()]);
+
+        return $answer["question"];
+    }
+
     public function create(int $containerID, string $body, int $author) : int
     {
         $this->db->connect()->execute("
